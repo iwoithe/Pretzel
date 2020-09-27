@@ -1,1 +1,2 @@
-from .scientific_calculator.scientific_calculator import *
+from .scientific_calculator.scientific_calculator import ScientificCalculator
+from .molecular_mass_calculator.molecular_mass_calculator import MolecularMass
