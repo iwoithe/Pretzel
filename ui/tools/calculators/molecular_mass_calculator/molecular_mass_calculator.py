@@ -40,7 +40,7 @@ class MolecularMass(QDockWidget):
         self.setup_ui()
 
     def setup_ui(self):
-        uic.loadUi("data/plugins/molecular_mass_calculator/molecular_mass_calculator.ui", self)
+        uic.loadUi("ui/tools/calculators/molecular_mass_calculator/molecular_mass_calculator.ui", self)
 
         types = ["Average", "Nominal", "Monoisotopic"]
 
