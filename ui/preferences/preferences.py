@@ -91,12 +91,12 @@ class PreferencesDialog(QDialog):
         current_style = self.customisation_settings.combo_style.currentText().replace(" ", "_")
         self.parent.settings["Style"] = current_style
 
-        self.parent.settings["Plugin Paths"] = []
+        self.parent.settings["Plugins"] = []
 
-        for plugin_path_item_num in range(self.plugin_settings.plugin_paths_view.count()):
-            plugin_path_item = self.plugin_settings.plugin_paths_view.item(plugin_path_item_num)
-            plugin_path = plugin_path_item.text()
-            self.parent.settings["Plugin Paths"].append(plugin_path)
+        #for plugin_path_item_num in range(self.plugin_settings.plugin_paths_view.count()):
+        #    plugin_path_item = self.plugin_settings.plugin_paths_view.item(plugin_path_item_num)
+        #    plugin_path = plugin_path_item.text()
+        #    self.parent.settings["Plugins"].append(plugin_path)
 
         # Save the changes
         with open("data/settings.json", "w") as f:

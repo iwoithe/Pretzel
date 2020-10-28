@@ -15,30 +15,25 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLabel" name="label_plugin_paths">
-     <property name="text">
-      <string>Plugin Paths:</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="layout_plugin_paths">
+    <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QListWidget" name="plugin_paths_view">
-       <property name="selectionMode">
-        <enum>QAbstractItemView::ExtendedSelection</enum>
-       </property>
-      </widget>
+      <widget class="QListView" name="plugins_list"/>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="layout_plugin_path_buttons">
+      <layout class="QVBoxLayout" name="plugin_buttons">
        <item>
-        <widget class="QPushButton" name="button_add_plugin_paths">
+        <widget class="QPushButton" name="button_add_plugins">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+          <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
          </property>
          <property name="text">
           <string>+</string>
@@ -46,12 +41,18 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="button_remove_plugin_paths">
+        <widget class="QPushButton" name="button_remove_plugins">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+          <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
          </property>
          <property name="text">
           <string>-</string>
@@ -59,6 +60,9 @@
         </widget>
        </item>
       </layout>
+     </item>
+     <item>
+      <widget class="QTextEdit" name="plugin_info"/>
      </item>
     </layout>
    </item>

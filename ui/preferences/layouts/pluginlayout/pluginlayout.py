@@ -45,16 +45,16 @@ class PluginLayout(QWidget):
 
         self.bind_signals()
 
+    def bind_signals(self):
+        self.button_add_plugins.clicked.connect(self.add_plugin_paths)
+        self.button_remove_plugins.clicked.connect(self.remove_plugin_paths)
+
     def load_plugin_paths(self):
         # Index 0: Plugin Path
         # Index 1: Is the plugin installed
-        for plugin_path in self.parent.parent.settings["Plugin Paths"]:
+        for plugin_path in self.parent.parent.settings["Plugins"]:
             if plugin_path[0] is not "":
                 dir = QListWidgetItem(plugin_path[0], self.plugin_paths_view)
-
-    def bind_signals(self):
-        self.button_add_plugin_paths.clicked.connect(self.add_plugin_paths)
-        self.button_remove_plugin_paths.clicked.connect(self.remove_plugin_paths)
 
     @pyqtSlot()
     def add_plugin_paths(self):

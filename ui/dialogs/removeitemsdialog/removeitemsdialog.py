@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-#  addremoveitemswidget.py
+#  removeitemsdialog.py
 #
 #  Copyright 2020 iwoithe <iwoithe@just42.net>
 #
@@ -29,46 +29,43 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
+import core.database
+from core.models.items import ItemsModel
 
-class AddRemoveItemsWidget(QWidget):
-
-    add_items_button_clicked = pyqtSignal()
-
-    def __init__(self, parent=None, title="Items", suffix=":", *args, **kwargs):
-        if parent is not None:
-            super().__init__(parent, *args, **kwargs)
-        else:
-            super().__init__(*args, **kwargs)
-
-        self.title = title
-        self.suffix = suffix
+class RemoveItemsDialog(QDialog):
+    def __init__(self, parent=None, *args, **kwargs):
+        super().__init__(parent, *args, **kwargs)
 
         # Setup the user interface
         self.parent = parent
         self.setup_ui()
 
     def setup_ui(self):
-        uic.loadUi('ui/widgets/addremoveitemswidget/addremoveitemswidget.ui', self)
+        uic.loadUi('ui/dialogs/removeitemsdialog/removeitemsdialog.ui', self)
 
-        self.label_items.setText(self.title + self.suffix)
+        self.load_database_items()
 
         self.bind_signals()
 
     def bind_signals(self):
-        self.button_add_items.clicked.connect(self.add_items_button_clicked.emit)
-        self.button_remove_items.clicked.connect(self.remove_items)
+        self.button_remove_items.clicked.connect(self.add_items)
 
-    @pyqtSlot()
-    def remove_items(self):
-        selected_items = self.items_view.selectedItems()
+    def load_database_items(self):
+        items = core.database.items.load_items()
+        self.items_model = ItemsModel(items=items)
+        self.items_list.setModel(self.items_model)
 
-        for item in selected_items:
-            self.items_view.takeItem(self.items_view.row(item))
+    def add_items(self):
+        for item_index in self.items_list.selectedIndexes():
+            self.parent.items_list.model().items.append(self.items_model.items[item_index.row()])
+
+        self.parent.items_list.model().update()
+        self.close()
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     app.setStyle("fusion")
-    addremoveitemswidget = AddRemoveItemsWidget()
-    addremoveitemswidget.show()
+    add_items_dialog = RemoveItemsDialog()
+    add_items_dialog.show()
     sys.exit(app.exec())

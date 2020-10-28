@@ -1,0 +1,225 @@
+/*
+
+            Obsidian Theme (For Pretzel)
+            ============================
+
+    Warning: This is a WIP (Work In Progress)!
+
+The color scheme is as follows:
+
+Text: #e0e2e4
+Disabled Text:
+Background: #293134
+Normal: #2f393c
+Hover: #3C4346
+Pressed/Selected: #7d8c93
+Disabled: #1f2629
+
+*/
+
+/*------------------------------------
+    QWidget
+--------------------------------------*/
+
+QWidget {
+    color: #e0e2e4;
+    background-color: #293134;
+}
+
+/*------------------------------------
+    QMainWindow
+--------------------------------------*/
+
+QMainWindow {
+    color: #e0e2e4;
+    background-color: #293134;
+}
+
+/*------------------------------------
+    QMenuBar
+--------------------------------------*/
+
+QMenuBar {
+    background-color: #293134;
+    spacing: 3px;
+}
+
+QMenuBar::item {
+    padding: 4px;
+    background: transparent;
+    border-radius: 2px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+
+QMenuBar::item:selected { /* when selected using mouse or keyboard */
+    background-color: #7d8c93;
+}
+
+QMenuBar::item:pressed {
+    background-color: #7d8c93;
+}
+
+/*------------------------------------
+    QMenu
+--------------------------------------*/
+
+QMenu {
+    background-color: #293134; /* sets background of the menu */
+    border: 1px solid black;
+}
+
+QMenu::item {
+    /* sets background of menu item. set this to something non-transparent
+       if you want menu color and menu item color to be different */
+    background-color: transparent;
+}
+
+QMenu::item::hover {
+    background-color: #3C4346;
+}
+
+QMenu::item:selected { /* when user selects item using mouse or keyboard */
+    background-color: #7d8c93;
+}
+
+/*------------------------------------
+    QPushButton
+--------------------------------------*/
+
+QPushButton {
+    background-color: #2f393c;
+    border-radius: 6px;
+    min-width: 36px;
+    padding: 5px 20px 5px 20px;
+}
+
+QPushButton::hover {
+    background-color: #3C4346;
+}
+
+QPushButton:pressed {
+    background-color: #7d8c93;
+}
+
+/*------------------------------------
+    QListView
+--------------------------------------*/
+
+QListView {
+    background-color: #2f393c;
+}
+
+QListView::item:selected {
+    background-color: #7d8c93;
+}
+
+/*------------------------------------
+    QTreeView
+--------------------------------------*/
+
+QTreeView {
+    background-color: #2f393c;
+}
+
+QTreeView::item {
+    background-color: #2f393c;
+}
+
+QTreeView::item:hover {
+    background-color: #3C4346;
+}
+
+QTreeView::item:selected {
+    background-color: #7d8c93;
+}
+
+QTreeView::item:selected:active{
+    background-color: #7d8c93;
+}
+
+QTreeView::item:selected:!active {
+    background-color: #7d8c93;
+}
+
+/*------------------------------------
+    QTabWidget
+--------------------------------------*/
+
+QTabWidget::pane {
+    /* The tab widget frame */
+    border: 2px solid #3C4346;
+    border-radius: 3px;
+}
+
+QTabWidget::tab-bar {
+    left: 0px;
+}
+
+/*------------------------------------
+    QTabBar
+--------------------------------------*/
+
+QTabBar::tab {
+    border: 1px solid #3C4346;
+    border-bottom-color: #3C4346; /* same as the pane color */
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    min-width: 8ex;
+    padding: 3px 6px 3px 6px;
+}
+
+QTabBar::tab:hover {
+    background-color: #3C4346;
+}
+
+QTabBar::tab:selected {
+    background-color: #7d8c93;
+}
+
+QTabBar::tab:selected {
+    border-color: #9B9B9B;
+    border-bottom-color: #3C4346; /* same as pane color */
+}
+
+QTabBar::tab:!selected {
+    margin-top: 3px; /* make non-selected tabs look smaller */
+}
+
+/*------------------------------------
+    QScrollBar
+--------------------------------------*/
+
+QScrollBar:vertical {
+    background-color: #1f2629;
+    width: 14px;
+    margin: 0px;
+}
+
+QScrollBar::handle:vertical {
+    background-color: #2f393c;
+    min-height: 20px;
+    margin: 2px;
+    border-radius: 5px;
+}
+
+QScrollBar::handle:vertical::hover {
+    background-color: #3C4346;
+}
+
+QScrollBar::handle:vertical:pressed {
+    background-color: #7d8c93;
+}
+
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+    border: none;
+    background: none;
+    height: 0px;
+}
+
+QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical, QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+    border: none;
+    background: none;
+    color: none;
+}
+

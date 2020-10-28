@@ -1,0 +1,35 @@
+# General
+site_name: Pretzel
+copyright: 'Copyright © iwoithe 2020 <br> Creative Commons Attribution-ShareAlike 4.0 International'
+
+# Gitlab Repository
+#repo_url: 'https://gitlab.com/iwoithe/pretzel'
+
+theme: material
+
+# Overide the default navigation
+nav:
+  - 'Welcome to Pretzel': 'index.md'
+  - 'Getting Started':
+    - 'getting-started/index.md'
+    - 'Adding Items': 'getting-started/adding-items.md'
+  - 'Plugins':
+    - 'Tutorials':
+      - 'Notes Dock Plugin': 'plugins/tutorials/notes-dock-plugin.md'
+    - 'Examples':
+      - 'Hello World Plugin': 'plugins/examples/hello-world-plugin.md'
+
+# Markdown Extensions
+markdown_extensions:
+  - admonition  
+  - pymdownx.superfences
+  - pymdownx.tabbed
+  
+  - pymdownx.highlight:
+      linenums: true
+
+
+# Plugins
+plugins:
+  - search
+#  - mermaid2
