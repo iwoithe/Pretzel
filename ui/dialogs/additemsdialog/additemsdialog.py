@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-#  additemsdialog.py
+#  removeitemsdialog.py
 #
 #  Copyright 2020 iwoithe <iwoithe@just42.net>
 #
@@ -39,22 +39,18 @@ class AddItemsDialog(QDialog):
         self.setup_ui()
 
     def setup_ui(self):
-        uic.loadUi('ui/dialogs/additemsdialog/additemsdialog.ui', self)
+        uic.loadUi('ui/dialogs/additemsdialog/removeitemsdialog.ui', self)
 
-    def add_database_items(self):
-        for database_item in self.items_database_view.selectedItems():
-            item = QListWidgetItem(database_item.text(), self.added_items_view)
+        self.bind_signals()
 
-    def remove_items(self):
-        sender = self.sender()
-        if sender:
-            if sender.objectName() == "button_remove_items_database":
-                selected_items = self.added_items_view.selectedItems()
-            else:
-                selected_items = []
+    def bind_signals(self):
+        self.button_add_items.clicked.connect(self.add_items)
 
-            for item in selected_items:
-                self.added_items_view.takeItem(self.added_items_view.row(item))
+    def load_database_items(self):
+        pass
+
+    def add_items(self):
+        pass
 
 
 if __name__ == '__main__':

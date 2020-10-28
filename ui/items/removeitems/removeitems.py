@@ -29,7 +29,10 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
-from ...dialogs import *
+from ui.dialogs.removeitemsdialog import RemoveItemsDialog
+
+import core.database
+from core.models.items import ItemsModel
 
 
 class RemoveItems(QDockWidget):
@@ -42,15 +45,55 @@ class RemoveItems(QDockWidget):
 
     def setup_ui(self):
         uic.loadUi('ui/items/removeitems/removeitems.ui', self)
+
+        self.items_model = ItemsModel()
+        self.items_list.setModel(self.items_model)
+
         self.bind_signals()
 
     def bind_signals(self):
         self.button_add_items.clicked.connect(self.add_items)
+        self.button_remove_items.clicked.connect(self.remove_items)
+
+        self.remove_items_button.clicked.connect(self.delete_items)
 
     @pyqtSlot()
     def add_items(self):
-        add_items_dialog = AddItemsDialog(self.parent)
+        """ Adds items to the items list """
+        add_items_dialog = RemoveItemsDialog(self)
         add_items_dialog.exec()
+
+    @pyqtSlot()
+    def remove_items(self):
+        """ Removes the selected items from the items list"""
+        indexes = self.items_list.selectedIndexes()
+
+        if indexes:
+            first_index = True
+            for index in indexes[::-1]:
+                # Remove the item and refresh
+                if first_index:
+                    del self.items_model.items[index.row()]
+                    first_index = False
+                else:
+                    del self.items_model.items[index.row() - 1]
+
+            self.items_model.update()
+
+            # Clear the selection (as it is no longer valid)
+            self.items_list.clearSelection()
+
+    @pyqtSlot()
+    def delete_items(self):
+        """ Deletes the items from the database"""
+
+        items = []
+
+        for item_index in range(self.items_model.rowCount()):
+            name = self.items_model.items[item_index]["Name"]
+            items.append((name))
+
+        core.database.items.remove_items(items)
 
 
 if __name__ == '__main__':

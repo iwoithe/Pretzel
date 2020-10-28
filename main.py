@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
 #  main.py
@@ -22,6 +22,10 @@
 #
 #
 
+
+# TODO: Move all program-related files and folders to a subdirectory called 'src'
+
+
 import os
 import sys
 import glob
@@ -31,6 +35,8 @@ import importlib
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
+
+import core.database
 
 import ui.utils
 
@@ -89,17 +95,18 @@ class Pretzel(QMainWindow):
 
         # View
         view_menu = self.menu_bar.addMenu("&View")
-        view_menu.addAction(self.menu.toggleViewAction())
         item_menu = view_menu.addMenu("Item")
+        stock_menu = view_menu.addMenu("Stock")
         item_menu.addAction(self.add_items.toggleViewAction())
         item_menu.addAction(self.remove_items.toggleViewAction())
-        stock_menu = view_menu.addMenu("Stock")
+        view_menu.addAction(self.menu.toggleViewAction())
 
         # Tools
         tools_menu = self.menu_bar.addMenu("&Tools")
         # Calculators
         calculators_menu = tools_menu.addMenu("Calculators")
         calculators_menu.addAction(self.scientific_calculator.toggleViewAction())
+        calculators_menu.addAction(self.molecular_mass.toggleViewAction())
         # Generation
         generation_menu = tools_menu.addMenu("Generation")
         generation_menu.addAction(self.generate_reports.toggleViewAction())
@@ -164,6 +171,7 @@ class Pretzel(QMainWindow):
     def setup_window(self):
         ''' Sets up the title, icon, menu bar etc. '''
         self.setWindowTitle("Pretzel")
+        self.setWindowIcon(QIcon("data/pretzel/icon.svg"))
         self.menu_bar = self.create_menu_bar()
         self.setMenuBar(self.menu_bar)
         self.status = QStatusBar()
@@ -193,20 +201,16 @@ class Pretzel(QMainWindow):
     def load_plugins(self):
         # TODO: This is a very basic plugin system. Will need to be improved
         #       in future
-        for plugin_path in self.settings["Plugin Paths"]:
-            valid_file_types = [os.path.join(plugin_path, "*.py")]
-            for file_type in valid_file_types:
-                plugins = glob.glob(file_type)
-                for plugin in plugins:
-                    plugin_name = os.path.splitext(os.path.basename(plugin))[0].replace("_", " ").title()
-                    spec = importlib.util.spec_from_file_location(plugin_name, plugin)
-                    p = importlib.util.module_from_spec(spec)
-                    spec.loader.exec_module(p)
-                    try:
-                        p.register(self)
-                    except NameError as e:
-                        print("All plugins must have a register method!")
-                        print(str(e))
+        for plugin in self.settings["Plugins"]:
+            plugin_name = os.path.splitext(os.path.basename(plugin))[0].replace("_", " ").title()
+            spec = importlib.util.spec_from_file_location(plugin_name, plugin)
+            p = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(p)
+            try:
+                p.register(self)
+            except NameError as e:
+                print("All plugins must have a register method!")
+                print(str(e))
 
     def show_preferences(self):
         preferences_dialog = PreferencesDialog(self)
@@ -217,9 +221,27 @@ class Pretzel(QMainWindow):
 
 
 if __name__ == '__main__':
+    # Setup the application
     app = QApplication(sys.argv)
-    # Temporarily set the style, until I've written my own styles
     app.setStyle("fusion")
+
+    # Show the splash screen
+    splash_img = QPixmap("data/pretzel/logo.svg")
+    splash_screen = QSplashScreen(splash_img)
+    splash_screen.show()
+
+    # Init databases
+    splash_screen.showMessage("Initializing Databases...", alignment=Qt.AlignRight | Qt.AlignBottom)
+    app.processEvents()
+
+    core.database.init.initialize_databases()
+
+    # Loading
+    splash_screen.showMessage("Loading...", alignment=Qt.AlignRight | Qt.AlignBottom)
+    app.processEvents()
+
+    # Run Pretzel
     pretzel = Pretzel()
     pretzel.show()
+    splash_screen.finish(pretzel)
     sys.exit(app.exec_())

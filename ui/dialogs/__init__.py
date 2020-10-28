@@ -1,1 +1,2 @@
-from .additemsdialog.additemsdialog import *
+from .additemsdialog.additemsdialog import AddItemsDialog
+from .addpictogramsdialog.addpictogramsdialog import AddPictogramsDialog
