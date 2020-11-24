@@ -22,24 +22,35 @@
 #
 
 import sys
+import logging
 
 from PyQt5 import uic
-
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
+from Pretzel.constants import *
+from Pretzel.core.models.items import ItemsModel
+from Pretzel.core.models.stock import StockModel
+from Pretzel.core.database.items import load_items
+from Pretzel.core.database.stock import load_stock_names
+
 
 class AddItemsDialog(QDialog):
-    def __init__(self, parent=None, *args, **kwargs):
+    def __init__(self, parent=None, type_=AddItemsDialogType.Item, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
 
         # Setup the user interface
         self.parent = parent
+        self.type_ = type_
+        self.load_database_items()
         self.setup_ui()
 
     def setup_ui(self):
-        uic.loadUi('Pretzel/ui/dialogs/additemsdialog/removeitemsdialog.ui', self)
+        uic.loadUi('Pretzel/ui/dialogs/additemsdialog/additemsdialog.ui', self)
+
+        # Setup the items list
+        self.items_list.setModel(self.items_model)
 
         self.bind_signals()
 
@@ -47,10 +58,40 @@ class AddItemsDialog(QDialog):
         self.button_add_items.clicked.connect(self.add_items)
 
     def load_database_items(self):
-        pass
+        if self.type_ == AddItemsDialogType.Item:
+            items = load_items()
+            self.items_model = ItemsModel(items=items)
+        elif self.type_ == AddItemsDialogType.Stock:
+            stock = load_stock_names()
+            self.items_model = StockModel(stock=stock)
+        else:
+            logging.warning("The supplied add items type does not exist")
 
+    @pyqtSlot()
     def add_items(self):
-        pass
+        if self.parent:
+            for item_index in self.items_list.selectedIndexes():
+                #current_item_index = self.parent.items_list.currentIndex()
+                if self.type_ == AddItemsDialogType.Item:
+                    self.parent.item_model.items.append(self.items_model.items[item_index.row()])
+                elif self.type_ == AddItemsDialogType.Stock:
+                    self.parent.stock_model.stock.append(self.items_model.stock[item_index.row()])
+                else:
+                    logging.warning("The supplied add items type does not exist")
+                    return
+
+                #item = self.parent.stock_model.stock[current_item_index.row()]
+                #pictograms = item["Pictograms"]
+                #pictograms.pictograms.append(self.items_model.items[item_index.row()])
+                if self.type_ == AddItemsDialogType.Item:
+                    self.parent.item_model.update()
+                elif self.type_ == AddItemsDialogType.Stock:
+                    self.parent.stock_model.update()
+                else:
+                    logging.warning("The supplied add items type does not exist")
+                    return
+
+            self.close()
 
 
 if __name__ == '__main__':

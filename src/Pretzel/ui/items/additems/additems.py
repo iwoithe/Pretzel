@@ -66,7 +66,7 @@ class AddItemsProperties(QWidget):
 
         self.items_list.clicked.connect(self.update_item_properties_index)
 
-        # Cycle through a layouts line edits
+        # Cycle through layouts
         for widget_num in range(self.general_tab.layout().count()):
             widget = self.general_tab.layout().itemAt(widget_num)
             if (type(widget) == QHBoxLayout) or (type(widget) == QVBoxLayout):
@@ -87,7 +87,8 @@ class AddItemsProperties(QWidget):
 
     def save_item_settings(self, item_index):
         """ Save an item's settings
-            :item_index: The index of the item to save the settings to """
+
+            :param item_index: The index of the item to save the settings to """
 
         row = item_index.row()
         try:
@@ -103,7 +104,8 @@ class AddItemsProperties(QWidget):
 
     def update_item_display(self, item_index):
         """ Update an item's display
-            :item_index: The index of the item to update the display to """
+
+            :param item_index: The index of the item to update the display to """
         # TODO: Get live preview of markdown working
 
         row = item_index.row()
@@ -156,7 +158,7 @@ class AddItemsProperties(QWidget):
 
         """
 
-        # Don't use self.previous_index (creates a bug)
+        # Don't use the previous index (creates a bug)
         self.update_item_properties(current_index=current_index)
 
         self.previous_index = current_index
@@ -216,7 +218,6 @@ class AddItemsProperties(QWidget):
             # Clear the selection (as it is no longer valid)
             self.items_list.clearSelection()
 
-            self.previous_index = None
             current_index = self.items_list.currentIndex()
             self.update_item_properties_index(current_index=current_index)
 

@@ -50,8 +50,8 @@ class Menu(QDockWidget):
                         "Remove Items",
                     },
                     "Stock": {
-                        "Purchase Stock",
-                        "Prepare Stock"
+                        "Add Stock",
+                        "Remove Stock"
                     },
                     "Reports": {
                         "Generate Reports",

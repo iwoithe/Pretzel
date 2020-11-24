@@ -23,29 +23,31 @@
 #
 
 
-# TODO: Move all program-related files and folders to a subdirectory called 'src'
-
-
 import os
 import sys
 import glob
 import json
+import logging
 import importlib
 
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
+
+import Pretzel.core
+
 import Pretzel.ui.utils
 
 from Pretzel.ui.menu import *
 from Pretzel.ui.items import *
 
-from Pretzel.ui.reports import GenerateReports
+from Pretzel.ui.stock import AddStock
 from Pretzel.ui.preferences import PreferencesDialog
 from Pretzel.ui.tools.calculators import MolecularMass, ScientificCalculator
 
-import Pretzel.core
+
+#logging.basicConfig(filename='data/debug.log', level=logging.DEBUG)
 
 
 class PretzelWindow(QMainWindow):
@@ -95,10 +97,14 @@ class PretzelWindow(QMainWindow):
 
         # View
         view_menu = self.menu_bar.addMenu("&View")
+        # Items
         item_menu = view_menu.addMenu("Item")
-        stock_menu = view_menu.addMenu("Stock")
         item_menu.addAction(self.add_items.toggleViewAction())
         item_menu.addAction(self.remove_items.toggleViewAction())
+        # Stock
+        stock_menu = view_menu.addMenu("Stock")
+        stock_menu.addAction(self.add_stock.toggleViewAction())
+
         view_menu.addAction(self.menu.toggleViewAction())
 
         # Tools
@@ -109,8 +115,6 @@ class PretzelWindow(QMainWindow):
         calculators_menu.addAction(self.molecular_mass.toggleViewAction())
         # Generation
         generation_menu = tools_menu.addMenu("Generation")
-        generation_menu.addAction(self.generate_reports.toggleViewAction())
-        #generation_menu.addAction(self.update_report.toggleViewAction())
 
         # Help
         help_menu = self.menu_bar.addMenu("&Help")
@@ -129,14 +133,16 @@ class PretzelWindow(QMainWindow):
         self.menu.toggleViewAction().setShortcuts(QKeySequence("Ctrl+M"))
         self.menu.toggleDock.connect(self.toggle_dock)
 
+        # Items
         self.add_items = AddItems(self)
         self.add_items.toggleViewAction().setShortcuts(QKeySequence("Shift+A"))
 
         self.remove_items = RemoveItems(self)
         self.remove_items.toggleViewAction().setShortcuts(QKeySequence("Shift+R"))
 
-        self.generate_reports = GenerateReports(self)
-        self.generate_reports.toggleViewAction().setShortcuts(QKeySequence("Ctrl+G"))
+        # Stock
+        self.add_stock = AddStock(parent=self)
+        self.add_stock.toggleViewAction().setShortcuts(QKeySequence("Ctrl+A"))
 
         self.scientific_calculator = ScientificCalculator()
         self.scientific_calculator.toggleViewAction().setShortcuts(QKeySequence("Alt+C"))
@@ -151,9 +157,9 @@ class PretzelWindow(QMainWindow):
         self.addDockWidget(Qt.RightDockWidgetArea, self.add_items)
         self.addDockWidget(Qt.RightDockWidgetArea, self.remove_items)
 
-        self.addDockWidget(Qt.RightDockWidgetArea, self.generate_reports)
+        self.addDockWidget(Qt.RightDockWidgetArea, self.add_stock)
 
-        self.splitDockWidget(self.add_items, self.generate_reports, Qt.Horizontal)
+        self.splitDockWidget(self.add_items, self.add_stock, Qt.Horizontal)
         self.splitDockWidget(self.add_items, self.remove_items, Qt.Vertical)
 
         self.addDockWidget(Qt.BottomDockWidgetArea, self.scientific_calculator)
@@ -162,7 +168,6 @@ class PretzelWindow(QMainWindow):
         self.splitDockWidget(self.scientific_calculator, self.molecular_mass, Qt.Horizontal)
 
         # Hide some of the docks so that the UI is not overcrowded
-        self.generate_reports.hide()
         self.remove_items.hide()
 
         self.scientific_calculator.hide()
@@ -191,8 +196,6 @@ class PretzelWindow(QMainWindow):
             self.add_items.toggleViewAction().trigger()
         elif dock_name == "Remove Items":
             self.remove_items.toggleViewAction().trigger()
-        elif dock_name == "Generate Reports":
-            self.generate_reports.toggleViewAction().trigger()
         elif dock_name == "Scientific Calculator":
             self.scientific_calculator.toggleViewAction().trigger()
         else:
@@ -212,15 +215,24 @@ class PretzelWindow(QMainWindow):
                 print("All plugins must have a register method!")
                 print(str(e))
 
+    def add_dock_widget_plugin(self, plugin_class, dock_widget_area, shortcuts=[]):
+        self.addDockWidget(dock_widget_area, plugin_class)
+        plugin_class.toggleViewAction().setShortcuts(*shortcuts)
+
     def show_preferences(self):
         preferences_dialog = PreferencesDialog(self)
         preferences_dialog.exec_()
 
     def quit(self):
+        # Unregister all plugins
+
+        # Quit Pretzel
         QCoreApplication.quit()
 
 
 if __name__ == '__main__':
+    # TODO: Move PretzelWindow to separate file (application.py?)
+    # TODO: Find a better loading/saving settings system (EasySettings)
     # Setup the application
     app = QApplication(sys.argv)
     app.setStyle("fusion")
@@ -233,9 +245,8 @@ if __name__ == '__main__':
     # Init databases
     splash_screen.showMessage("Initializing Databases...", alignment=Qt.AlignRight | Qt.AlignBottom)
     app.processEvents()
-
-
     Pretzel.core.database.init.initialize_databases()
+    logging.info("Initialized the databases")
 
     # Loading
     splash_screen.showMessage("Loading...", alignment=Qt.AlignRight | Qt.AlignBottom)
@@ -243,6 +254,13 @@ if __name__ == '__main__':
 
     # Run Pretzel
     pretzel = PretzelWindow()
+
+    # Add todolist plugin (only for testing)
+    #from data.plugins.todo_list import todolist
+    #todolistplugin = todolist.TodoListPlugin()
+    #pretzel.add_dock_widget_plugin(todolistplugin, Qt.BottomDockWidgetArea, [QKeySequence("Ctrl+T")])
+
     pretzel.show()
     splash_screen.finish(pretzel)
+    logging.info("Pretzel loaded successfully")
     sys.exit(app.exec_())

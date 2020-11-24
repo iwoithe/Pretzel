@@ -4,7 +4,7 @@ import sqlite3
 from Pretzel.core.models import PictogramModel
 
 
-def load_items(database: str = "data/databases/data.db"):
+def load_items(database: str = "data/databases/data.db") -> list:
     con = sqlite3.connect(database)
     items_tuple = con.execute("SELECT * FROM items;").fetchall()
 

@@ -9,3 +9,4 @@ What is the difference between __init__.py and init.py:
 
 from . import init
 from . import items
+from . import stock

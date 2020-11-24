@@ -27,3 +27,5 @@ __package__ = "pretzel"
 __version__ = "0.0.1"
 __author__ = "iwoithe"
 __description__ = "A cross-platform, free and open source hazardous chemicals managment app."
+
+from .main import PretzelWindow
