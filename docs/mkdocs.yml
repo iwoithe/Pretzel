@@ -21,7 +21,7 @@ nav:
 
 # Markdown Extensions
 markdown_extensions:
-  - admonition  
+  - admonition
   - pymdownx.superfences
   - pymdownx.tabbed
   

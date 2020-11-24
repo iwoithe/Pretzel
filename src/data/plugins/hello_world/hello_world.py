@@ -1,7 +1,7 @@
 # A simple demo of how to write a simple plugin for Pretzel
 
-from src.Pretzel.api import utils
-from src.Pretzel.api import types
+from Pretzel.api import utils
+from Pretzel.api import types
 
 
 class HelloWorldPlugin(types.Plugin):
@@ -16,10 +16,12 @@ class HelloWorldPlugin(types.Plugin):
     def exec(self):
         print("Hello World!")
 
+
 def register():
     classes = [HelloWorldPlugin]
 
     utils.register(classes)
+
 
 def unregister():
     pass

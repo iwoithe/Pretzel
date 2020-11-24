@@ -35,11 +35,13 @@ class Plugin():
     :param name: The name of the plugin
     :type name: str
     :param version: The version of the plugin
-    :type version: str
+    :type version: tuple
     :param author: The author of the plugin
     :type author: str
     :param description: The description of the plugin
     :type description: str
+    :param shortcuts: The shortcuts for the plugin
+    :type shortcuts: list
     :param README: The (relative) file path to the readme of the plugin
     :type REAMDE: str
     :param file_path: The file path of the plugin
@@ -48,12 +50,14 @@ class Plugin():
     """
 
     name = "Plugin"
-    version = "0.0.1"
+    version = (0, 0, 1)
     author = "Plugin Author"
     description = "Plugin description"
+    shortcuts = []
     README = None
 
-    # This is the easiest way for Pretzel to get the file path. Please DO NOT override this
+    # This is the easiest way for Pretzel to get the file path. You need to add this line here
+    # in every Pretzel plugin.
     file_path = __file__
 
     def __init__(self, *args, **kwargs):
@@ -78,6 +82,6 @@ class Plugin():
 
 
 class Operator(Plugin):
-    """ The operator class will be used for the command palette (once it has been implemented """
+    """ The operator class will be used for the command palette (once it has been implemented) """
     def __init__(self, *args, **kwargs):
         pass
