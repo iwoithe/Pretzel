@@ -33,16 +33,17 @@ from Pretzel.constants import *
 from Pretzel.core.models.items import ItemsModel
 from Pretzel.core.models.stock import StockModel
 from Pretzel.core.database.items import load_items
-from Pretzel.core.database.stock import load_stock_names
+from Pretzel.core.database.stock import load_stock_names, load_stock
 
 
 class AddItemsDialog(QDialog):
-    def __init__(self, parent=None, type_=AddItemsDialogType.Item, *args, **kwargs):
+    def __init__(self, parent=None, type_=AddItemsDialogType.Item, stock_type_=StockType.Default, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
 
         # Setup the user interface
         self.parent = parent
         self.type_ = type_
+        self.stock_type_ = stock_type_
         self.load_database_items()
         self.setup_ui()
 
@@ -62,8 +63,15 @@ class AddItemsDialog(QDialog):
             items = load_items()
             self.items_model = ItemsModel(items=items)
         elif self.type_ == AddItemsDialogType.Stock:
-            stock = load_stock_names()
+            if self.stock_type_ == StockType.Default:
+                stock = load_stock_names()
+            elif self.stock_type_ == StockType.Edit:
+                stock = load_stock()
+            else:
+                stock = []
+
             self.items_model = StockModel(stock=stock)
+
         else:
             logging.warning("The supplied add items type does not exist")
 

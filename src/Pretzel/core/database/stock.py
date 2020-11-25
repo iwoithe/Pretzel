@@ -120,3 +120,32 @@ def remove_stock(items: list, database: str = "data/databases/data.db"):
     # Save changes to the database and close
     con.commit()
     con.close()
+
+def edit_stock(items: list, database: str = "data/databases/data.db"):
+    # Open the database
+    con = sqlite3.connect(database)
+
+    # Update the quantity
+    quantity = []
+    for item in items:
+        quantity.append([item[1], item[0]])
+
+    con.executemany("UPDATE stock SET quantity = ? WHERE name = ?", quantity)
+
+    # Update the units
+    units = []
+    for item in items:
+        units.append((item[2], item[0]))
+
+    con.executemany("UPDATE stock SET unit = ? WHERE name = ?", units)
+
+    # Update the quantity
+    cost = []
+    for item in items:
+        cost.append([item[3], item[0]])
+
+    con.executemany("UPDATE stock SET cost = ? WHERE name = ?", cost)
+
+    # Save changes to the database and close
+    con.commit()
+    con.close()

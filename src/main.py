@@ -42,7 +42,7 @@ import Pretzel.ui.utils
 from Pretzel.ui.menu import *
 from Pretzel.ui.items import *
 
-from Pretzel.ui.stock import AddStock, RemoveStock
+from Pretzel.ui.stock import AddStock, RemoveStock, EditStock
 from Pretzel.ui.preferences import PreferencesDialog
 from Pretzel.ui.tools.calculators import MolecularMass, ScientificCalculator
 
@@ -105,6 +105,7 @@ class PretzelWindow(QMainWindow):
         stock_menu = view_menu.addMenu("Stock")
         stock_menu.addAction(self.add_stock.toggleViewAction())
         stock_menu.addAction(self.remove_stock.toggleViewAction())
+        stock_menu.addAction(self.edit_stock.toggleViewAction())
 
         view_menu.addAction(self.menu.toggleViewAction())
 
@@ -145,6 +146,8 @@ class PretzelWindow(QMainWindow):
         self.add_stock.toggleViewAction().setShortcuts(QKeySequence("Ctrl+A"))
         self.remove_stock = RemoveStock(parent=self)
         self.remove_stock.toggleViewAction().setShortcuts(QKeySequence("Ctrl+R"))
+        self.edit_stock = EditStock(parent=self)
+        self.edit_stock.toggleViewAction().setShortcuts(QKeySequence("Ctrl+E"))
 
         self.scientific_calculator = ScientificCalculator()
         self.scientific_calculator.toggleViewAction().setShortcuts(QKeySequence("Alt+C"))
@@ -161,10 +164,13 @@ class PretzelWindow(QMainWindow):
 
         self.addDockWidget(Qt.RightDockWidgetArea, self.add_stock)
         self.addDockWidget(Qt.RightDockWidgetArea, self.remove_stock)
+        self.addDockWidget(Qt.RightDockWidgetArea, self.edit_stock)
 
         self.splitDockWidget(self.add_items, self.add_stock, Qt.Horizontal)
         self.splitDockWidget(self.add_items, self.remove_items, Qt.Vertical)
         self.splitDockWidget(self.add_stock, self.remove_stock, Qt.Vertical)
+
+        self.splitDockWidget(self.menu, self.edit_stock, Qt.Vertical)
 
         self.addDockWidget(Qt.BottomDockWidgetArea, self.scientific_calculator)
         self.addDockWidget(Qt.BottomDockWidgetArea, self.molecular_mass)
@@ -173,6 +179,8 @@ class PretzelWindow(QMainWindow):
 
         # Hide some of the docks so that the UI is not overcrowded
         self.remove_items.hide()
+        self.remove_stock.hide()
+        self.edit_stock.hide()
 
         self.scientific_calculator.hide()
         self.molecular_mass.hide()

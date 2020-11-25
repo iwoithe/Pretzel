@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>RemoveStock</class>
- <widget class="QDockWidget" name="RemoveStock">
+ <class>EditStock</class>
+ <widget class="QDockWidget" name="EditStock">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Remove Stock</string>
+   <string>Edit Stock</string>
   </property>
   <widget class="QWidget" name="main_widget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -91,6 +91,50 @@
           </item>
           <item>
            <widget class="QDoubleSpinBox" name="spin_quantity">
+            <property name="maximum">
+             <double>1000000.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="layout_unit">
+          <item>
+           <widget class="QLabel" name="label_unit">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Unit:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="combo_unit"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="layout_cost">
+          <item>
+           <widget class="QLabel" name="label_cost">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Cost:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="spin_cost">
             <property name="maximum">
              <double>1000000.000000000000000</double>
             </property>
