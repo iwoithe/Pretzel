@@ -42,7 +42,7 @@ import Pretzel.ui.utils
 from Pretzel.ui.menu import *
 from Pretzel.ui.items import *
 
-from Pretzel.ui.stock import AddStock
+from Pretzel.ui.stock import AddStock, RemoveStock
 from Pretzel.ui.preferences import PreferencesDialog
 from Pretzel.ui.tools.calculators import MolecularMass, ScientificCalculator
 
@@ -104,6 +104,7 @@ class PretzelWindow(QMainWindow):
         # Stock
         stock_menu = view_menu.addMenu("Stock")
         stock_menu.addAction(self.add_stock.toggleViewAction())
+        stock_menu.addAction(self.remove_stock.toggleViewAction())
 
         view_menu.addAction(self.menu.toggleViewAction())
 
@@ -136,13 +137,14 @@ class PretzelWindow(QMainWindow):
         # Items
         self.add_items = AddItems(self)
         self.add_items.toggleViewAction().setShortcuts(QKeySequence("Shift+A"))
-
         self.remove_items = RemoveItems(self)
         self.remove_items.toggleViewAction().setShortcuts(QKeySequence("Shift+R"))
 
         # Stock
         self.add_stock = AddStock(parent=self)
         self.add_stock.toggleViewAction().setShortcuts(QKeySequence("Ctrl+A"))
+        self.remove_stock = RemoveStock(parent=self)
+        self.remove_stock.toggleViewAction().setShortcuts(QKeySequence("Ctrl+R"))
 
         self.scientific_calculator = ScientificCalculator()
         self.scientific_calculator.toggleViewAction().setShortcuts(QKeySequence("Alt+C"))
@@ -158,9 +160,11 @@ class PretzelWindow(QMainWindow):
         self.addDockWidget(Qt.RightDockWidgetArea, self.remove_items)
 
         self.addDockWidget(Qt.RightDockWidgetArea, self.add_stock)
+        self.addDockWidget(Qt.RightDockWidgetArea, self.remove_stock)
 
         self.splitDockWidget(self.add_items, self.add_stock, Qt.Horizontal)
         self.splitDockWidget(self.add_items, self.remove_items, Qt.Vertical)
+        self.splitDockWidget(self.add_stock, self.remove_stock, Qt.Vertical)
 
         self.addDockWidget(Qt.BottomDockWidgetArea, self.scientific_calculator)
         self.addDockWidget(Qt.BottomDockWidgetArea, self.molecular_mass)

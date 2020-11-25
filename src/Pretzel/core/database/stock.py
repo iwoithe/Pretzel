@@ -94,15 +94,29 @@ def add_stock(items: list, database: str = "data/databases/data.db"):
 
 
 def remove_stock(items: list, database: str = "data/databases/data.db"):
-    """
-    :param items: The items to remove from the database
-    :type items: list
-    :param database: The database to remove the items from
-    :type database: str
-    """
+    # Open the database
     con = sqlite3.connect(database)
 
-    con.executemany("DELETE FROM items WHERE name = ?;", (items,))
+    # Update the quantity
+    new_quantity = []
+    for item in items:
+        new_quantity.append([item[1], item[0]])
 
+    old_quantity = []
+
+    for q in new_quantity.copy():
+        new_total = con.execute("SELECT quantity FROM stock WHERE name = (?)", (q[1],)).fetchall()[0]
+        old_quantity.append([new_total, q[1]])
+
+    quantity = []
+    for q in old_quantity:
+        new_quan = float(q[0][0] - new_quantity[old_quantity.index(q)][0])
+        quantity.append([new_quan, q[1]])
+
+    con.executemany("UPDATE stock SET quantity = ? WHERE name = ?", quantity)
+
+    # Don't need to update the unit or cost
+
+    # Save changes to the database and close
     con.commit()
     con.close()

@@ -1,1 +1,2 @@
-from .addstock.addstock import AddStock
+from .addstock import AddStock
+from .removestock import RemoveStock
