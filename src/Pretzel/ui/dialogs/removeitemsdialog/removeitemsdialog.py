@@ -28,6 +28,8 @@ from PyQt5 import uic
 from PyQt5.QtWidgets import *
 
 from Pretzel.core.models import ItemsModel
+from Pretzel.core.database.items import load_items
+
 
 class RemoveItemsDialog(QDialog):
     def __init__(self, parent=None, *args, **kwargs):
@@ -48,7 +50,7 @@ class RemoveItemsDialog(QDialog):
         self.button_remove_items.clicked.connect(self.add_items)
 
     def load_database_items(self):
-        items = src.core.database.items.load_items()
+        items = load_items()
         self.items_model = ItemsModel(items=items)
         self.items_list.setModel(self.items_model)
 
