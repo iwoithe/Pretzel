@@ -31,6 +31,7 @@ from PyQt5.QtWidgets import *
 from Pretzel.ui.dialogs.removeitemsdialog import RemoveItemsDialog
 
 from Pretzel.core.models import ItemsModel
+from Pretzel.core.database.items import remove_items
 
 
 class RemoveItems(QDockWidget):
@@ -69,6 +70,9 @@ class RemoveItems(QDockWidget):
         if indexes:
             first_index = True
             for index in indexes[::-1]:
+                # TODO: See if the following is a shortcut way of removing items
+                # self.items_model.removeRow(index)
+
                 # Remove the item and refresh
                 if first_index:
                     del self.items_model.items[index.row()]
@@ -91,7 +95,7 @@ class RemoveItems(QDockWidget):
             name = self.items_model.items[item_index]["Name"]
             items.append((name))
 
-        Pretzel.core.database.items.remove_items(items)
+        remove_items(items)
 
 
 if __name__ == '__main__':

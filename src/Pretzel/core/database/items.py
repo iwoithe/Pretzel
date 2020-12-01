@@ -35,6 +35,13 @@ def load_items(database: str = "data/databases/data.db") -> list:
 def add_items(items: list, database: str = "data/databases/data.db"):
     con = sqlite3.connect(database)
     con.executemany("INSERT INTO items(name, chemical_formula, warning_label, danger_level, notes, pictograms) values (?, ?, ?, ?, ?, ?)", items)
+
+    item_names = []
+    for item in items:
+        item_names.append([item[0]])
+
+    con.executemany("INSERT INTO stock(name, quantity, unit, cost) values (?, 0, 'None', 0)", item_names)
+
     con.commit()
     con.close()
 
@@ -49,6 +56,7 @@ def remove_items(items: list, database: str = "data/databases/data.db"):
     con = sqlite3.connect(database)
 
     con.executemany("DELETE FROM items WHERE name = ?;", (items,))
+    con.executemany("DELETE FROM stock WHERE name = ?;", (items,))
 
     con.commit()
     con.close()

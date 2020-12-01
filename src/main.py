@@ -42,12 +42,20 @@ import Pretzel.ui.utils
 from Pretzel.ui.menu import *
 from Pretzel.ui.items import *
 
-from Pretzel.ui.stock import AddStock, RemoveStock, EditStock
+from Pretzel.ui.stock import AddStock, RemoveStock, EditStock, ViewStock, StockToolbar
 from Pretzel.ui.preferences import PreferencesDialog
 from Pretzel.ui.tools.calculators import MolecularMass, ScientificCalculator
 
 
 #logging.basicConfig(filename='data/debug.log', level=logging.DEBUG)
+
+try:
+    # For Windows
+    from PyQt5.QtWinExtras import QtWin
+    pretzel_id = 'iwoithe.pretzel.app.0.0.1'
+    QtWin.setCurrentProcessExplicitAppUserModelID(pretzel_id)
+except ImportError:
+    pass
 
 
 class PretzelWindow(QMainWindow):
@@ -106,6 +114,8 @@ class PretzelWindow(QMainWindow):
         stock_menu.addAction(self.add_stock.toggleViewAction())
         stock_menu.addAction(self.remove_stock.toggleViewAction())
         stock_menu.addAction(self.edit_stock.toggleViewAction())
+        stock_menu.addAction(self.view_stock.toggleViewAction())
+        stock_menu.addAction(self.stock_toolbar.toggleViewAction())
 
         view_menu.addAction(self.menu.toggleViewAction())
 
@@ -126,6 +136,7 @@ class PretzelWindow(QMainWindow):
 
     def setup_ui(self):
         self.create_docks()
+        self.create_toolbars()
         self.setup_window()
 
     def create_docks(self):
@@ -148,6 +159,8 @@ class PretzelWindow(QMainWindow):
         self.remove_stock.toggleViewAction().setShortcuts(QKeySequence("Ctrl+R"))
         self.edit_stock = EditStock(parent=self)
         self.edit_stock.toggleViewAction().setShortcuts(QKeySequence("Ctrl+E"))
+        self.view_stock = ViewStock(parent=self)
+        self.view_stock.toggleViewAction().setShortcuts(QKeySequence("Shift+V"))
 
         self.scientific_calculator = ScientificCalculator()
         self.scientific_calculator.toggleViewAction().setShortcuts(QKeySequence("Alt+C"))
@@ -165,6 +178,7 @@ class PretzelWindow(QMainWindow):
         self.addDockWidget(Qt.RightDockWidgetArea, self.add_stock)
         self.addDockWidget(Qt.RightDockWidgetArea, self.remove_stock)
         self.addDockWidget(Qt.RightDockWidgetArea, self.edit_stock)
+        self.addDockWidget(Qt.BottomDockWidgetArea, self.view_stock)
 
         self.splitDockWidget(self.add_items, self.add_stock, Qt.Horizontal)
         self.splitDockWidget(self.add_items, self.remove_items, Qt.Vertical)
@@ -184,6 +198,10 @@ class PretzelWindow(QMainWindow):
 
         self.scientific_calculator.hide()
         self.molecular_mass.hide()
+
+    def create_toolbars(self):
+        self.stock_toolbar = StockToolbar("Stock Toolbar", parent=self, view_stock_dock=self.view_stock)
+        self.addToolBar(self.stock_toolbar)
 
     def setup_window(self):
         ''' Sets up the title, icon, menu bar etc. '''
@@ -245,6 +263,7 @@ class PretzelWindow(QMainWindow):
 if __name__ == '__main__':
     # TODO: Move PretzelWindow to separate file (application.py?)
     # TODO: Find a better loading/saving settings system (EasySettings)
+    # TODO: when using uic.loadUi(), see if using relative paths will work (instead of "Pretzel/ui/test/test.ui etc.")
     # Setup the application
     app = QApplication(sys.argv)
     app.setStyle("fusion")
