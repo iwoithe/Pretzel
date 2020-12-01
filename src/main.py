@@ -216,7 +216,7 @@ class PretzelWindow(QMainWindow):
         style = Pretzel.ui.utils.load_style_from_file(os.path.join("data/styles/", self.settings["Style"] + ".qss"))
         Pretzel.ui.utils.apply_style(style)
 
-        # Configue docks
+        # Configure docks
         self.setTabPosition(Qt.AllDockWidgetAreas, QTabWidget.North)
         self.setDockOptions(self.AnimatedDocks | self.AllowNestedDocks | self.AllowTabbedDocks | self.GroupedDragging)
 
