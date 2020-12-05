@@ -81,7 +81,11 @@ class AddItemsDialog(QDialog):
             for item_index in self.items_list.selectedIndexes():
                 #current_item_index = self.parent.items_list.currentIndex()
                 if self.type_ == AddItemsDialogType.Item:
-                    self.parent.item_model.items.append(self.items_model.items[item_index.row()])
+                    # Temporary fix
+                    try:
+                        self.parent.item_model.items.append(self.items_model.items[item_index.row()])
+                    except AttributeError:
+                        self.parent.items_model.items.append(self.items_model.items[item_index.row()])
                 elif self.type_ == AddItemsDialogType.Stock:
                     self.parent.stock_model.stock.append(self.items_model.stock[item_index.row()])
                 else:
@@ -92,7 +96,11 @@ class AddItemsDialog(QDialog):
                 #pictograms = item["Pictograms"]
                 #pictograms.pictograms.append(self.items_model.items[item_index.row()])
                 if self.type_ == AddItemsDialogType.Item:
-                    self.parent.item_model.update()
+                    # Temporary fix
+                    try:
+                        self.parent.item_model.update()
+                    except AttributeError:
+                        self.parent.items_model.update()
                 elif self.type_ == AddItemsDialogType.Stock:
                     self.parent.stock_model.update()
                 else:

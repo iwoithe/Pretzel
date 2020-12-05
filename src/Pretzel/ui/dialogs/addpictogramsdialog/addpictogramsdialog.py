@@ -53,8 +53,6 @@ class AddPictogramsDialog(QDialog):
 
         self.bind_signals()
 
-        self.loop_count = 1
-
     def bind_signals(self):
         self.button_add_pictograms.clicked.connect(self.add_pictograms)
 
@@ -70,12 +68,31 @@ class AddPictogramsDialog(QDialog):
     @pyqtSlot()
     def add_pictograms(self):
         for pictogram_index in self.pictograms_list.selectedIndexes():
-            current_item_index = self.parent.add_items_properties.items_list.currentIndex()
-            item = self.parent.add_items_properties.items_model.items[current_item_index.row()]
+            # Temporary fix
+            try:
+                current_item_index = self.parent.item_list.currentIndex()
+            except AttributeError:
+                try:
+                    current_item_index = self.parent.items_list.currentIndex()
+                except AttributeError:
+                    current_item_index = self.parent.add_items_properties.items_list.currentIndex()
+
+            # Temporary fix
+            try:
+                item = self.parent.item_model.items[current_item_index.row()]
+            except AttributeError:
+                try:
+                    item = self.parent.items_model.items[current_item_index.row()]
+                except AttributeError:
+                    item = self.parent.add_items_properties.items_model.items[current_item_index.row()]
+
             pictograms = item["Pictograms"]
             pictograms.pictograms.append(self.pictograms_model.pictograms[pictogram_index.row()])
 
-        self.parent.add_items_properties.pictograms_list.model().update()
+        try:
+            self.parent.pictograms_list.model().update()
+        except AttributeError:
+            self.parent.add_items_properties.pictograms_list.model().update()
         self.close()
 
 

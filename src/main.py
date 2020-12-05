@@ -109,6 +109,7 @@ class PretzelWindow(QMainWindow):
         item_menu = view_menu.addMenu("Item")
         item_menu.addAction(self.add_items.toggleViewAction())
         item_menu.addAction(self.remove_items.toggleViewAction())
+        item_menu.addAction(self.edit_items.toggleViewAction())
         # Stock
         stock_menu = view_menu.addMenu("Stock")
         stock_menu.addAction(self.add_stock.toggleViewAction())
@@ -151,6 +152,8 @@ class PretzelWindow(QMainWindow):
         self.add_items.toggleViewAction().setShortcuts(QKeySequence("Shift+A"))
         self.remove_items = RemoveItems(self)
         self.remove_items.toggleViewAction().setShortcuts(QKeySequence("Shift+R"))
+        self.edit_items = EditItems(self)
+        self.edit_items.toggleViewAction().setShortcuts(QKeySequence("Shift+E"))
 
         # Stock
         self.add_stock = AddStock(parent=self)
@@ -174,13 +177,15 @@ class PretzelWindow(QMainWindow):
 
         self.addDockWidget(Qt.RightDockWidgetArea, self.add_items)
         self.addDockWidget(Qt.RightDockWidgetArea, self.remove_items)
+        self.addDockWidget(Qt.RightDockWidgetArea, self.edit_items)
 
         self.addDockWidget(Qt.RightDockWidgetArea, self.add_stock)
         self.addDockWidget(Qt.RightDockWidgetArea, self.remove_stock)
         self.addDockWidget(Qt.RightDockWidgetArea, self.edit_stock)
-        self.addDockWidget(Qt.BottomDockWidgetArea, self.view_stock)
+        self.addDockWidget(Qt.LeftDockWidgetArea, self.view_stock)
 
         self.splitDockWidget(self.add_items, self.add_stock, Qt.Horizontal)
+        self.splitDockWidget(self.edit_items, self.add_items, Qt.Horizontal)
         self.splitDockWidget(self.add_items, self.remove_items, Qt.Vertical)
         self.splitDockWidget(self.add_stock, self.remove_stock, Qt.Vertical)
 
@@ -285,11 +290,6 @@ if __name__ == '__main__':
 
     # Run Pretzel
     pretzel = PretzelWindow()
-
-    # Add todolist plugin (only for testing)
-    #from data.plugins.todo_list import todolist
-    #todolistplugin = todolist.TodoListPlugin()
-    #pretzel.add_dock_widget_plugin(todolistplugin, Qt.BottomDockWidgetArea, [QKeySequence("Ctrl+T")])
 
     pretzel.show()
     splash_screen.finish(pretzel)
