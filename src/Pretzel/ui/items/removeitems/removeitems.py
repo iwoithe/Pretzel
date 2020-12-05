@@ -28,7 +28,7 @@ from PyQt5 import uic
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 
-from Pretzel.ui.dialogs.removeitemsdialog import RemoveItemsDialog
+from Pretzel.ui.dialogs import AddItemsDialog
 
 from Pretzel.core.models import ItemsModel
 from Pretzel.core.database.items import remove_items
@@ -59,7 +59,7 @@ class RemoveItems(QDockWidget):
     @pyqtSlot()
     def add_items(self):
         """ Adds items to the items list """
-        add_items_dialog = RemoveItemsDialog(self)
+        add_items_dialog = AddItemsDialog(self)
         add_items_dialog.exec()
 
     @pyqtSlot()
