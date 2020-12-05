@@ -52,7 +52,6 @@ class ViewStock(QDockWidget):
 
     @pyqtSlot(str)
     def filter_items(self, text: str):
-        # TODO: Make it work
         # Filter the packages
         self.proxy_model.setFilterFixedString(text)
 
