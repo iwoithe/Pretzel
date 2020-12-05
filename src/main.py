@@ -110,6 +110,7 @@ class PretzelWindow(QMainWindow):
         item_menu.addAction(self.add_items.toggleViewAction())
         item_menu.addAction(self.remove_items.toggleViewAction())
         item_menu.addAction(self.edit_items.toggleViewAction())
+        item_menu.addAction(self.view_items.toggleViewAction())
         # Stock
         stock_menu = view_menu.addMenu("Stock")
         stock_menu.addAction(self.add_stock.toggleViewAction())
@@ -177,42 +178,46 @@ class PretzelWindow(QMainWindow):
 
         self.addDockWidget(Qt.LeftDockWidgetArea, self.menu)
 
-        self.addDockWidget(Qt.RightDockWidgetArea, self.add_items)
-        self.addDockWidget(Qt.RightDockWidgetArea, self.remove_items)
-        self.addDockWidget(Qt.RightDockWidgetArea, self.edit_items)
-        self.addDockWidget(Qt.RightDockWidgetArea, self.view_items)
+        self.addDockWidget(Qt.LeftDockWidgetArea, self.add_items)
+        self.addDockWidget(Qt.LeftDockWidgetArea, self.remove_items)
+        self.addDockWidget(Qt.LeftDockWidgetArea, self.edit_items)
+
+        self.splitDockWidget(self.menu, self.add_items, Qt.Horizontal)
+
+        self.tabifyDockWidget(self.add_items, self.edit_items)
+        self.tabifyDockWidget(self.edit_items, self.remove_items)
+        self.add_items.raise_()
 
         self.addDockWidget(Qt.RightDockWidgetArea, self.add_stock)
         self.addDockWidget(Qt.RightDockWidgetArea, self.remove_stock)
         self.addDockWidget(Qt.RightDockWidgetArea, self.edit_stock)
-        self.addDockWidget(Qt.LeftDockWidgetArea, self.view_stock)
-
-        self.tabifyDockWidget(self.add_items, self.remove_items)
-        self.tabifyDockWidget(self.remove_items, self.edit_items)
-        self.splitDockWidget(self.edit_items, self.view_items, Qt.Vertical)
-
-        self.splitDockWidget(self.add_items, self.add_stock, Qt.Horizontal)
+        self.addDockWidget(Qt.RightDockWidgetArea, self.view_items)
+        self.addDockWidget(Qt.RightDockWidgetArea, self.view_stock)
 
         self.tabifyDockWidget(self.add_stock, self.edit_stock)
         self.tabifyDockWidget(self.edit_stock, self.remove_stock)
-        self.splitDockWidget(self.remove_stock, self.view_stock, Qt.Vertical)
+        self.add_stock.raise_()
 
-        self.addDockWidget(Qt.BottomDockWidgetArea, self.scientific_calculator)
-        self.addDockWidget(Qt.BottomDockWidgetArea, self.molecular_mass)
+        self.tabifyDockWidget(self.view_items, self.view_stock)
+        self.view_items.raise_()
 
-        self.splitDockWidget(self.scientific_calculator, self.molecular_mass, Qt.Horizontal)
+        self.addDockWidget(Qt.LeftDockWidgetArea, self.scientific_calculator)
+        self.addDockWidget(Qt.LeftDockWidgetArea, self.molecular_mass)
+
+        self.splitDockWidget(self.menu, self.scientific_calculator, Qt.Vertical)
+        self.tabifyDockWidget(self.scientific_calculator, self.molecular_mass)
+        self.scientific_calculator.raise_()
 
         # Hide some of the docks so that the UI is not overcrowded
-        self.remove_items.hide()
-        self.remove_stock.hide()
-        self.edit_stock.hide()
-
         self.scientific_calculator.hide()
         self.molecular_mass.hide()
 
     def create_toolbars(self):
         self.stock_toolbar = StockToolbar("Stock Toolbar", parent=self, view_stock_dock=self.view_stock)
         self.addToolBar(self.stock_toolbar)
+        # TODO: Add the Items Toolbar
+        # self.items_toolbar = StockToolbar("Items Toolbar", parent=self, view_items_dock=self.view_items)
+        # self.addToolBar(self.items_toolbar)
 
     def setup_window(self):
         ''' Sets up the title, icon, menu bar etc. '''
