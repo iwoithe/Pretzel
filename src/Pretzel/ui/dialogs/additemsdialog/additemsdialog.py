@@ -51,12 +51,14 @@ class AddItemsDialog(QDialog):
         uic.loadUi('Pretzel/ui/dialogs/additemsdialog/additemsdialog.ui', self)
 
         # Setup the items list
-        self.items_list.setModel(self.items_model)
+        self.items_list.setModel(self.proxy_model)
 
         self.bind_signals()
 
     def bind_signals(self):
         self.button_add_items.clicked.connect(self.add_items)
+
+        self.filter_entry.textEdited.connect(self.filter_items)
 
     def load_database_items(self):
         if self.type_ == AddItemsDialogType.Item:
@@ -74,6 +76,11 @@ class AddItemsDialog(QDialog):
 
         else:
             logging.warning("The supplied add items type does not exist")
+
+        self.proxy_model = QSortFilterProxyModel(self)
+        self.proxy_model.setSourceModel(self.items_model)
+        self.proxy_model.setFilterKeyColumn(0)
+        self.proxy_model.setFilterCaseSensitivity(Qt.CaseInsensitive)
 
     @pyqtSlot()
     def add_items(self):
@@ -108,6 +115,11 @@ class AddItemsDialog(QDialog):
                     return
 
             self.close()
+
+    @pyqtSlot(str)
+    def filter_items(self, text: str):
+        # Filter the packages
+        self.proxy_model.setFilterFixedString(text)
 
 
 if __name__ == '__main__':
