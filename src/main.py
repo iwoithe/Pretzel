@@ -40,7 +40,7 @@ import Pretzel.core
 import Pretzel.ui.utils
 
 from Pretzel.ui.menu import *
-from Pretzel.ui.items import *
+from Pretzel.ui.items import AddItems, EditItems, RemoveItems, ViewItems
 
 from Pretzel.ui.stock import AddStock, RemoveStock, EditStock, ViewStock, StockToolbar
 from Pretzel.ui.preferences import PreferencesDialog
@@ -154,6 +154,8 @@ class PretzelWindow(QMainWindow):
         self.remove_items.toggleViewAction().setShortcuts(QKeySequence("Shift+R"))
         self.edit_items = EditItems(self)
         self.edit_items.toggleViewAction().setShortcuts(QKeySequence("Shift+E"))
+        self.view_items = ViewItems(self)
+        self.view_items.toggleViewAction().setShortcuts(QKeySequence("Shift+I"))
 
         # Stock
         self.add_stock = AddStock(parent=self)
@@ -178,18 +180,22 @@ class PretzelWindow(QMainWindow):
         self.addDockWidget(Qt.RightDockWidgetArea, self.add_items)
         self.addDockWidget(Qt.RightDockWidgetArea, self.remove_items)
         self.addDockWidget(Qt.RightDockWidgetArea, self.edit_items)
+        self.addDockWidget(Qt.RightDockWidgetArea, self.view_items)
 
         self.addDockWidget(Qt.RightDockWidgetArea, self.add_stock)
         self.addDockWidget(Qt.RightDockWidgetArea, self.remove_stock)
         self.addDockWidget(Qt.RightDockWidgetArea, self.edit_stock)
         self.addDockWidget(Qt.LeftDockWidgetArea, self.view_stock)
 
-        self.splitDockWidget(self.add_items, self.add_stock, Qt.Horizontal)
-        self.splitDockWidget(self.edit_items, self.add_items, Qt.Horizontal)
-        self.splitDockWidget(self.add_items, self.remove_items, Qt.Vertical)
-        self.splitDockWidget(self.add_stock, self.remove_stock, Qt.Vertical)
+        self.tabifyDockWidget(self.add_items, self.remove_items)
+        self.tabifyDockWidget(self.remove_items, self.edit_items)
+        self.splitDockWidget(self.edit_items, self.view_items, Qt.Vertical)
 
-        self.splitDockWidget(self.menu, self.edit_stock, Qt.Vertical)
+        self.splitDockWidget(self.add_items, self.add_stock, Qt.Horizontal)
+
+        self.tabifyDockWidget(self.add_stock, self.edit_stock)
+        self.tabifyDockWidget(self.edit_stock, self.remove_stock)
+        self.splitDockWidget(self.remove_stock, self.view_stock, Qt.Vertical)
 
         self.addDockWidget(Qt.BottomDockWidgetArea, self.scientific_calculator)
         self.addDockWidget(Qt.BottomDockWidgetArea, self.molecular_mass)
