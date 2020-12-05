@@ -237,8 +237,7 @@ class PretzelWindow(QMainWindow):
             pass
 
     def load_plugins(self):
-        # TODO: This is a very basic plugin system. Will need to be improved
-        #       in future
+        # TODO: This is a very basic plugin system. Will need to be improved in future
         for plugin in self.settings["Plugins"]:
             plugin_name = os.path.splitext(os.path.basename(plugin))[0].replace("_", " ").title()
             spec = importlib.util.spec_from_file_location(plugin_name, plugin)
@@ -268,7 +267,7 @@ class PretzelWindow(QMainWindow):
 if __name__ == '__main__':
     # TODO: Move PretzelWindow to separate file (application.py?)
     # TODO: Find a better loading/saving settings system (EasySettings)
-    # TODO: when using uic.loadUi(), see if using relative paths will work (instead of "Pretzel/ui/test/test.ui etc.")
+    # TODO: when using uic.loadUi(), see if using relative paths will work (e.g. "./test.ui" instead of "Pretzel/ui/test/test.ui etc.")
     # Setup the application
     app = QApplication(sys.argv)
     app.setStyle("fusion")
