@@ -57,11 +57,13 @@ class AddPictogramsDialog(QDialog):
         self.button_add_pictograms.clicked.connect(self.add_pictograms)
 
     def load_pictograms(self):
-        for pictogram in glob.glob("data/pictograms/*.*", recursive=True):
-            try:
-                self.pictograms_model.pictograms.append(pictogram)
-            except:
-                print("Please put only image files into the pictogram directory")
+        pictogram_paths = ["data/pictograms/*.*"]
+        for path in pictogram_paths:
+            for pictogram in glob.glob(path, recursive=True):
+                try:
+                    self.pictograms_model.pictograms.append(pictogram)
+                except:
+                    print("Please put only image files into the pictogram directory")
 
         self.pictograms_model.update()
 
