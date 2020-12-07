@@ -35,14 +35,14 @@ class ViewItems(QDockWidget):
 
         # Setup the models
         self.items_view.setModel(self.proxy_model)
-        self.load_stock()
+        self.load_items()
 
         self.bind_signals()
 
     def bind_signals(self):
         self.filter_entry.textEdited.connect(self.filter_items)
 
-    def load_stock(self):
+    def load_items(self):
         items = []
         for i in load_items():
             items.append(list(i.values())[:-2])

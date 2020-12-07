@@ -42,7 +42,8 @@ import Pretzel.ui.utils
 from Pretzel.ui.menu import *
 from Pretzel.ui.items import AddItems, EditItems, RemoveItems, ViewItems
 
-from Pretzel.ui.stock import AddStock, RemoveStock, EditStock, ViewStock, StockToolbar
+from Pretzel.ui.stock import AddStock, RemoveStock, EditStock, ViewStock
+from Pretzel.ui.toolbars import TableToolbar
 from Pretzel.ui.preferences import PreferencesDialog
 from Pretzel.ui.tools.calculators import MolecularMass, ScientificCalculator
 
@@ -117,9 +118,9 @@ class PretzelWindow(QMainWindow):
         stock_menu.addAction(self.remove_stock.toggleViewAction())
         stock_menu.addAction(self.edit_stock.toggleViewAction())
         stock_menu.addAction(self.view_stock.toggleViewAction())
-        stock_menu.addAction(self.stock_toolbar.toggleViewAction())
 
         view_menu.addAction(self.menu.toggleViewAction())
+        view_menu.addAction(self.table_toolbar.toggleViewAction())
 
         # Tools
         tools_menu = self.menu_bar.addMenu("&Tools")
@@ -213,11 +214,8 @@ class PretzelWindow(QMainWindow):
         self.molecular_mass.hide()
 
     def create_toolbars(self):
-        self.stock_toolbar = StockToolbar("Stock Toolbar", parent=self, view_stock_dock=self.view_stock)
-        self.addToolBar(self.stock_toolbar)
-        # TODO: Add the Items Toolbar
-        # self.items_toolbar = StockToolbar("Items Toolbar", parent=self, view_items_dock=self.view_items)
-        # self.addToolBar(self.items_toolbar)
+        self.table_toolbar = TableToolbar("Table Toolbar", parent=self, view_items_dock=self.view_items, view_stock_dock=self.view_stock)
+        self.addToolBar(self.table_toolbar)
 
     def setup_window(self):
         ''' Sets up the title, icon, menu bar etc. '''
