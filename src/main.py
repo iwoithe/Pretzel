@@ -238,8 +238,22 @@ class PretzelWindow(QMainWindow):
     def toggle_dock(self, dock_name):
         if dock_name == "Add Items":
             self.add_items.toggleViewAction().trigger()
+        elif dock_name == "Edit Items":
+            self.edit_items.toggleViewAction().trigger()
         elif dock_name == "Remove Items":
             self.remove_items.toggleViewAction().trigger()
+        elif dock_name == "View Items":
+            self.view_items.toggleViewAction().trigger()
+        elif dock_name == "Add Stock":
+            self.add_items.toggleViewAction().trigger()
+        elif dock_name == "Edit Stock":
+            self.edit_items.toggleViewAction().trigger()
+        elif dock_name == "Remove Stock":
+            self.remove_items.toggleViewAction().trigger()
+        elif dock_name == "View Stock":
+            self.view_items.toggleViewAction().trigger()
+        elif dock_name == "Molecular Mass":
+            self.molecular_mass.toggleViewAction().trigger()
         elif dock_name == "Scientific Calculator":
             self.scientific_calculator.toggleViewAction().trigger()
         else:

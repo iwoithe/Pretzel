@@ -41,21 +41,24 @@ class Menu(QDockWidget):
     def __init__(self, *args, **kwargs):
         super().__init__("Menu", *args, **kwargs)
 
+        # TODO: Change menu view to a QTreeView
+        # TODO: Add filtering to menu
         self.setup_menu()
         self.setup_ui()
 
     def setup_menu(self):
+        # TODO: Fix up the automatic sorting of the menu
         self.menu = {"Items": {
                         "Add Items",
+                        "Edit Items",
                         "Remove Items",
+                        "View Items"
                     },
                     "Stock": {
                         "Add Stock",
-                        "Remove Stock"
-                    },
-                    "Reports": {
-                        "Generate Reports",
-                        "Update Reports"
+                        "Edit Stock",
+                        "Remove Stock",
+                        "View Stock"
                     },
                     "Tools": {
                         "Calculators": {
