@@ -58,8 +58,12 @@ def remove_items(items: list, database: str = "data/databases/data.db"):
     """
     con = sqlite3.connect(database)
 
-    con.executemany("DELETE FROM items WHERE name = ?;", (items,))
-    con.executemany("DELETE FROM stock WHERE name = ?;", (items,))
+    item_names = []
+    for item_name in items:
+        item_names.append([item_name])
+
+    con.executemany("DELETE FROM items WHERE name = ?;", item_names)
+    con.executemany("DELETE FROM stock WHERE name = ?;", item_names)
 
     con.commit()
     con.close()
