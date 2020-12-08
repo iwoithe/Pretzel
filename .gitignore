@@ -12,4 +12,4 @@ backup
 .swp
 
 # Ignore databases
-data.db
+/src/data/databases/
