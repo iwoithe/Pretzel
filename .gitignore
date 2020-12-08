@@ -13,3 +13,6 @@ backup
 
 # Ignore databases
 /src/data/databases/
+
+# Ignore logs
+*.log
