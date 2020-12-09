@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-#  removeitemsdialog.py
+#  additemsdialog.py
 #
 #  Copyright 2020 iwoithe <iwoithe@just42.net>
 #
