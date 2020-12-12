@@ -69,10 +69,15 @@ class PretzelWindow(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.create_actions()
         self.setup_ui()
 
         self.load_plugins()
+
+    def setup_ui(self):
+        self.create_actions()
+        self.create_docks()
+        self.create_toolbars()
+        self.setup_window()
 
     def create_actions(self):
         # Quit
@@ -98,56 +103,6 @@ class PretzelWindow(QMainWindow):
         self.action_about_qt = QAction("About Qt", self)
         self.action_about_qt.setStatusTip("About Qt")
         self.action_about_qt.triggered.connect(QApplication.instance().aboutQt)
-
-    def create_menu_bar(self):
-        self.menu_bar = QMenuBar()
-
-        # File
-        file_menu = self.menu_bar.addMenu("&File")
-        file_menu.addAction(self.action_import)
-        file_menu.addAction(self.action_quit)
-
-        # Edit
-        edit_menu = self.menu_bar.addMenu("&Edit")
-        edit_menu.addAction(self.action_preferences)
-
-        # View
-        view_menu = self.menu_bar.addMenu("&View")
-        # Items
-        item_menu = view_menu.addMenu("Item")
-        item_menu.addAction(self.add_items.toggleViewAction())
-        item_menu.addAction(self.remove_items.toggleViewAction())
-        item_menu.addAction(self.edit_items.toggleViewAction())
-        item_menu.addAction(self.view_items.toggleViewAction())
-        # Stock
-        stock_menu = view_menu.addMenu("Stock")
-        stock_menu.addAction(self.add_stock.toggleViewAction())
-        stock_menu.addAction(self.remove_stock.toggleViewAction())
-        stock_menu.addAction(self.edit_stock.toggleViewAction())
-        stock_menu.addAction(self.view_stock.toggleViewAction())
-
-        view_menu.addAction(self.menu.toggleViewAction())
-        view_menu.addAction(self.table_toolbar.toggleViewAction())
-
-        # Tools
-        tools_menu = self.menu_bar.addMenu("&Tools")
-        # Calculators
-        calculators_menu = tools_menu.addMenu("Calculators")
-        calculators_menu.addAction(self.scientific_calculator.toggleViewAction())
-        calculators_menu.addAction(self.molecular_mass.toggleViewAction())
-        # Generation
-        generation_menu = tools_menu.addMenu("Generation")
-
-        # Help
-        help_menu = self.menu_bar.addMenu("&Help")
-        help_menu.addAction(self.action_about_qt)
-
-        return self.menu_bar
-
-    def setup_ui(self):
-        self.create_docks()
-        self.create_toolbars()
-        self.setup_window()
 
     def create_docks(self):
         # Create and setup the dock widgets
@@ -241,6 +196,68 @@ class PretzelWindow(QMainWindow):
         self.setTabPosition(Qt.AllDockWidgetAreas, QTabWidget.North)
         self.setDockOptions(self.AnimatedDocks | self.AllowNestedDocks | self.AllowTabbedDocks | self.GroupedDragging)
 
+    def create_menu_bar(self):
+        self.menu_bar = QMenuBar()
+
+        # File
+        file_menu = self.menu_bar.addMenu("&File")
+        file_menu.addAction(self.action_import)
+        file_menu.addAction(self.action_quit)
+
+        # Edit
+        edit_menu = self.menu_bar.addMenu("&Edit")
+        edit_menu.addAction(self.action_preferences)
+
+        # View
+        view_menu = self.menu_bar.addMenu("&View")
+        # Items
+        item_menu = view_menu.addMenu("Item")
+        item_menu.addAction(self.add_items.toggleViewAction())
+        item_menu.addAction(self.remove_items.toggleViewAction())
+        item_menu.addAction(self.edit_items.toggleViewAction())
+        item_menu.addAction(self.view_items.toggleViewAction())
+        # Stock
+        stock_menu = view_menu.addMenu("Stock")
+        stock_menu.addAction(self.add_stock.toggleViewAction())
+        stock_menu.addAction(self.remove_stock.toggleViewAction())
+        stock_menu.addAction(self.edit_stock.toggleViewAction())
+        stock_menu.addAction(self.view_stock.toggleViewAction())
+
+        view_menu.addAction(self.menu.toggleViewAction())
+        view_menu.addAction(self.table_toolbar.toggleViewAction())
+
+        # Tools
+        tools_menu = self.menu_bar.addMenu("&Tools")
+        # Calculators
+        calculators_menu = tools_menu.addMenu("Calculators")
+        calculators_menu.addAction(self.scientific_calculator.toggleViewAction())
+        calculators_menu.addAction(self.molecular_mass.toggleViewAction())
+        # Generation
+        generation_menu = tools_menu.addMenu("Generation")
+
+        # Help
+        help_menu = self.menu_bar.addMenu("&Help")
+        help_menu.addAction(self.action_about_qt)
+
+        return self.menu_bar
+
+    def load_plugins(self):
+        # TODO: This is a very basic plugin system. Will need to be improved in future
+        for plugin in self.settings["Plugins"]:
+            plugin_name = os.path.splitext(os.path.basename(plugin))[0].replace("_", " ").title()
+            spec = importlib.util.spec_from_file_location(plugin_name, plugin)
+            p = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(p)
+            try:
+                p.register(self)
+            except NameError as e:
+                print("All plugins must have a register method!")
+                print(str(e))
+
+    def add_dock_widget_plugin(self, plugin_class, dock_widget_area, shortcuts=[]):
+        self.addDockWidget(dock_widget_area, plugin_class)
+        plugin_class.toggleViewAction().setShortcuts(*shortcuts)
+
     @pyqtSlot(str)
     def toggle_dock(self, dock_name):
         if dock_name == "Add Items":
@@ -266,23 +283,6 @@ class PretzelWindow(QMainWindow):
         else:
             pass
 
-    def load_plugins(self):
-        # TODO: This is a very basic plugin system. Will need to be improved in future
-        for plugin in self.settings["Plugins"]:
-            plugin_name = os.path.splitext(os.path.basename(plugin))[0].replace("_", " ").title()
-            spec = importlib.util.spec_from_file_location(plugin_name, plugin)
-            p = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(p)
-            try:
-                p.register(self)
-            except NameError as e:
-                print("All plugins must have a register method!")
-                print(str(e))
-
-    def add_dock_widget_plugin(self, plugin_class, dock_widget_area, shortcuts=[]):
-        self.addDockWidget(dock_widget_area, plugin_class)
-        plugin_class.toggleViewAction().setShortcuts(*shortcuts)
-
     @pyqtSlot()
     def show_preferences(self):
         preferences_dialog = PreferencesDialog(self)
@@ -293,6 +293,7 @@ class PretzelWindow(QMainWindow):
         import_items_dialog = ImportItemsDialog(parent=self)
         import_items_dialog.exec()
 
+    @pyqtSlot()
     def quit(self):
         # Unregister all plugins
 
