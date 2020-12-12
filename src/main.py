@@ -49,7 +49,7 @@ from Pretzel.ui.preferences import PreferencesDialog
 from Pretzel.ui.tools.calculators import MolecularMass, ScientificCalculator
 
 
-# logging.basicConfig(filename='data/debug.log', level=logging.DEBUG)
+# logging.basicConfig(filename='data/debug.log', level=logging.INFO)
 
 try:
     # For Windows
