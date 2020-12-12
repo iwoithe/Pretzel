@@ -13,6 +13,9 @@ backup
 
 # Ignore databases
 /src/data/databases/
+/src/data/databases/*
+data.db
 
 # Ignore logs
 *.log
+debug.log
