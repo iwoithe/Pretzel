@@ -1,3 +1,3 @@
 # Getting Started
 
-The getting started guide will help you setup Pretzel ready for use.
+This section will get you started using Pretzel.

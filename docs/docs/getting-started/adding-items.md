@@ -1,21 +1,31 @@
 # Adding Items
 
-In Pretzel, the workflow is as follows:
+In Pretzel, items are the base of everything. Items hold different properties such as name, warning labels, notes, pictograms etc.
 
-1. You define ``items`` which holds different properties (e.g. name, chemical formula, warnings etc.).
+To add an item, open the ``Add Items`` dock (Shift + A). Click on the ``+`` button and select the new item that pops up.
 
-2. You control your ``stock``, using the defined ``items``.
+![](../../img/getting-started/add-item.png)
 
-3. You generate ``reports`` based on ``items`` (and ``stock``).
+After that, fill out the different properties.
 
-See the diagram below to visually see the structure of this.
+![](../../img/getting-started/add-properties.png)
 
-```mermaid
-graph LR;
-  A-->B;
-  B-->A;
-```
+You can also add pictograms by clicking on the ``Pictograms`` tab and clicking on the ``+`` button.
 
-!!! note "Note"
-    If at *any* stage you're confused about anything, don't hesitate to contact me.
+![](../../img/getting-started/adding-pictograms.png)
 
+The following dialog will pop up.
+
+![](../../img/getting-started/selecting-pictograms.png)
+
+Select the pictograms you would like. To select multiple either click and drag or Ctrl or Shift click the pictograms. Then click ``Add Pictograms``.
+
+You can then see the pictograms added to that icon.
+
+![](../../img/getting-started/view_pictograms.png)
+
+To save the items (you can create more than one at once), click on the ``Save Items`` button at the bottom.
+
+![](../../img/getting-started/save_items.png)
+
+To update the tables, click on the button in the top left corner.
