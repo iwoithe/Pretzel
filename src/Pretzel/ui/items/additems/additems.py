@@ -30,9 +30,11 @@ from PyQt5.QtWidgets import *
 
 from Pretzel.ui.dialogs import AddPictogramsDialog
 from Pretzel.core.models import ItemsModel, PictogramModel
-import Pretzel.core.converter
+from Pretzel.core.converter import list_to_string
+from Pretzel.core.database.items import add_items
 
-class AddItemsProperties(QWidget):
+
+class AddItems(QDockWidget):
     def __init__(self, parent=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -43,7 +45,7 @@ class AddItemsProperties(QWidget):
         self.setup_ui()
 
     def setup_ui(self):
-        uic.loadUi("Pretzel/ui/items/additems/additemsproperties.ui", self)
+        uic.loadUi("Pretzel/ui/items/additems/additems.ui", self)
 
         self.items_list.setModel(self.items_model)
         self.previous_index = None
@@ -194,8 +196,8 @@ class AddItemsProperties(QWidget):
 
     @pyqtSlot()
     def add_pictograms(self):
-        # shorten add_pictograms_dialg to apd
-        apd = AddPictogramsDialog(parent=self.parent)
+        # shorten add_pictograms_dialog to apd
+        apd = AddPictogramsDialog(parent=self)
         apd.exec()
 
     @pyqtSlot()
@@ -221,85 +223,32 @@ class AddItemsProperties(QWidget):
             current_index = self.items_list.currentIndex()
             self.update_item_properties_index(current_index=current_index)
 
-
-class ImportItemsProperties(QWidget):
-    def __init__(self, parent=None, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        if parent:
-            self.parent = parent
-
-        # Setup the interface
-        self.setup_ui()
-
-    def setup_ui(self):
-        uic.loadUi("Pretzel/ui/items/additems/importitemsproperties.ui", self)
-
-        self.bind_signals()
-
-    def bind_signals(self):
-        pass
-
-
-class AddItems(QDockWidget):
-    def __init__(self, parent=None, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        # Setup the user interface
-        self.parent = parent
-        self.setup_ui()
-
-    def setup_ui(self):
-        uic.loadUi('Pretzel/ui/items/additems/additems.ui', self)
-
-        self.add_items_properties = AddItemsProperties(parent=self)
-        self.import_items_properties = ImportItemsProperties()
-
-        self.combo_items_type.addItems(["Add Items", "Import from Database"])
-
-        self.items_type_layout = QStackedLayout(self.items_widget)
-        self.items_type_layout.addWidget(self.add_items_properties)
-        self.items_type_layout.addWidget(self.import_items_properties)
-
-        self.bind_signals()
-
-    def bind_signals(self):
-        self.combo_items_type.currentIndexChanged.connect(self.update_properties_view)
-
-        self.button_save_items.clicked.connect(self.save_items)
-
-    @pyqtSlot()
-    def update_properties_view(self):
-        current_index = self.combo_items_type.currentIndex()
-        self.items_type_layout.setCurrentIndex(current_index)
-
     @pyqtSlot()
     def save_items(self):
         """ Save the items to the item's database """
         items = []
-        items_model = self.add_items_properties.items_list.model()
-        for item_index in range(items_model.rowCount()):
-            name = items_model.items[item_index]["Name"]
-            chem_formula = items_model.items[item_index]["Chemical Formula"]
-            warning_label = items_model.items[item_index]["Warning Label"]
-            danger_level = items_model.items[item_index]["Danger Level"]
-            notes = items_model.items[item_index]["Notes"]
-            pictos = items_model.items[item_index]["Pictograms"].pictograms
+        for item_index in range(self.items_model.rowCount()):
+            name = self.items_model.items[item_index]["Name"]
+            chem_formula = self.items_model.items[item_index]["Chemical Formula"]
+            warning_label = self.items_model.items[item_index]["Warning Label"]
+            danger_level = self.items_model.items[item_index]["Danger Level"]
+            notes = self.items_model.items[item_index]["Notes"]
+            pictos = self.items_model.items[item_index]["Pictograms"].pictograms
             pictograms = []
             for picto in pictos:
                 # Append the pictograms image path
                 pictograms.append(picto)
 
-            pictograms = Pretzel.core.converter.list_to_string(pictograms)
+            pictograms = list_to_string(pictograms)
 
             items.append((name, chem_formula, warning_label, danger_level, notes, pictograms))
 
-        Pretzel.core.database.items.add_items(items)
+        add_items(items)
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     app.setStyle("fusion")
-    add_items = AddItems()
-    add_items.show()
+    add_items_dock = AddItems()
+    add_items_dock.show()
     sys.exit(app.exec())

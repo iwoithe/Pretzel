@@ -77,7 +77,7 @@ class AddPictogramsDialog(QDialog):
                 try:
                     current_item_index = self.parent.items_list.currentIndex()
                 except AttributeError:
-                    current_item_index = self.parent.add_items_properties.items_list.currentIndex()
+                    current_item_index = self.parent.pictograms_list.currentIndex()
 
             # Temporary fix
             try:
@@ -86,7 +86,7 @@ class AddPictogramsDialog(QDialog):
                 try:
                     item = self.parent.items_model.items[current_item_index.row()]
                 except AttributeError:
-                    item = self.parent.add_items_properties.items_model.items[current_item_index.row()]
+                    item = self.parent.pictograms_model.pictograms[current_item_index.row()]
 
             pictograms = item["Pictograms"]
             pictograms.pictograms.append(self.pictograms_model.pictograms[pictogram_index.row()])
