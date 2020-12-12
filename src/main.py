@@ -330,4 +330,4 @@ if __name__ == '__main__':
     pretzel.show()
     splash_screen.finish(pretzel)
     logging.info("Pretzel loaded successfully")
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
