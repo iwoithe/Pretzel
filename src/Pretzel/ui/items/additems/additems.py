@@ -87,6 +87,8 @@ class AddItems(QDockWidget):
         self.button_add_pictograms.clicked.connect(self.add_pictograms)
         self.button_remove_pictograms.clicked.connect(self.remove_pictograms)
 
+        self.button_save_items.clicked.connect(self.save_items)
+
     def save_item_settings(self, item_index):
         """ Save an item's settings
 
