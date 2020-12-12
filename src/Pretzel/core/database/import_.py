@@ -82,13 +82,13 @@ def import_excel(file: str, columns_dict: dict, database: str = "data/databases/
 
         # Warning Label
         try:
-            item.append(row.iloc[columns["Warning Label"]].title())
+            item.append(str(row.iloc[columns["Warning Label"]]).title())
         except KeyError:
             item.append("None")
 
         # Danger Level
         try:
-            item.append(row.iloc[columns["Danger Level"]].title())
+            item.append(str(row.iloc[columns["Danger Level"]]).title())
         except KeyError:
             item.append("None")
 
