@@ -43,12 +43,13 @@ from Pretzel.ui.menu import *
 from Pretzel.ui.items import AddItems, EditItems, RemoveItems, ViewItems
 
 from Pretzel.ui.stock import AddStock, RemoveStock, EditStock, ViewStock
+from Pretzel.ui.dialogs import ImportItemsDialog
 from Pretzel.ui.toolbars import TableToolbar
 from Pretzel.ui.preferences import PreferencesDialog
 from Pretzel.ui.tools.calculators import MolecularMass, ScientificCalculator
 
 
-logging.basicConfig(filename='data/debug.log', level=logging.DEBUG)
+# logging.basicConfig(filename='data/debug.log', level=logging.DEBUG)
 
 try:
     # For Windows
@@ -80,6 +81,11 @@ class PretzelWindow(QMainWindow):
         self.action_quit.setShortcuts(QKeySequence("Ctrl+Q"))
         self.action_quit.triggered.connect(self.quit)
 
+        # Import Items
+        self.action_import = QAction("Import")
+        self.action_import.setShortcuts(QKeySequence("Ctrl+I"))
+        self.action_import.triggered.connect(self.show_import_items_dialog)
+
         # Preferences
         self.action_preferences = QAction("Preferences", self)
         self.action_preferences.setStatusTip("Open the preferences")
@@ -98,6 +104,7 @@ class PretzelWindow(QMainWindow):
 
         # File
         file_menu = self.menu_bar.addMenu("&File")
+        file_menu.addAction(self.action_import)
         file_menu.addAction(self.action_quit)
 
         # Edit
@@ -276,9 +283,15 @@ class PretzelWindow(QMainWindow):
         self.addDockWidget(dock_widget_area, plugin_class)
         plugin_class.toggleViewAction().setShortcuts(*shortcuts)
 
+    @pyqtSlot()
     def show_preferences(self):
         preferences_dialog = PreferencesDialog(self)
-        preferences_dialog.exec_()
+        preferences_dialog.exec()
+
+    @pyqtSlot()
+    def show_import_items_dialog(self):
+        import_items_dialog = ImportItemsDialog(parent=self)
+        import_items_dialog.exec()
 
     def quit(self):
         # Unregister all plugins
