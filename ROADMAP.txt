@@ -1,0 +1,21 @@
+# Pretzel's Roadmap
+
+## Version 0.1.0
+
+- [ ] Add Open Document Spreadsheet and CSV importing support
+- [ ] Add an About dialog
+- [ ] Create a better settings and preferences system (using EasySettings)
+
+## Unset Time
+
+- [ ] Create a (good) plugin system and API
+- [ ] Finish the Obsidian style
+
+## Misc
+
+- [ ] Create a website for Pretzel
+- [ ] Create a better icon and logo
+
+## Undecided
+
+- [ ] Syncing with cloud services
