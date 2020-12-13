@@ -318,7 +318,7 @@ if __name__ == '__main__':
     Pretzel.core.init.init_logging()
     # Time?
     # logging.basicConfig(filename='data/debug.log', level=logging.INFO, format='%(levelname)s:%(asctime)s: %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
-    logging.basicConfig(filename='data/debug.log', level=logging.DEBUG, format='%(levelname)s:%(name)s: %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
+    logging.basicConfig(filename='data/debug.log', level=logging.INFO, format='%(levelname)s:%(name)s: %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
     logging.debug("Initialized logging")
 
     # Init databases
