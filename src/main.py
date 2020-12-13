@@ -49,8 +49,6 @@ from Pretzel.ui.preferences import PreferencesDialog
 from Pretzel.ui.tools.calculators import MolecularMass, ScientificCalculator
 
 
-# logging.basicConfig(filename='data/debug.log', level=logging.INFO)
-
 try:
     # For Windows
     from PyQt5.QtWinExtras import QtWin
@@ -314,11 +312,20 @@ if __name__ == '__main__':
     splash_screen = QSplashScreen(splash_img)
     splash_screen.show()
 
+    # Init logs
+    splash_screen.showMessage("Initializing Logging...", alignment=Qt.AlignRight | Qt.AlignBottom)
+    app.processEvents()
+    Pretzel.core.init.init_logging()
+    # Time?
+    # logging.basicConfig(filename='data/debug.log', level=logging.INFO, format='%(levelname)s:%(asctime)s: %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
+    logging.basicConfig(filename='data/debug.log', level=logging.DEBUG, format='%(levelname)s:%(name)s: %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
+    logging.debug("Initialized logging")
+
     # Init databases
     splash_screen.showMessage("Initializing Databases...", alignment=Qt.AlignRight | Qt.AlignBottom)
     app.processEvents()
     Pretzel.core.database.init.initialize_databases()
-    logging.info("Initialized the databases")
+    logging.debug("Initialized the databases")
 
     # Loading
     splash_screen.showMessage("Loading...", alignment=Qt.AlignRight | Qt.AlignBottom)
