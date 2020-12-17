@@ -43,7 +43,7 @@ from Pretzel.ui.menu import *
 from Pretzel.ui.items import AddItems, EditItems, RemoveItems, ViewItems
 
 from Pretzel.ui.stock import AddStock, RemoveStock, EditStock, ViewStock
-from Pretzel.ui.dialogs import ImportItemsDialog
+from Pretzel.ui.dialogs import ImportItemsDialog, AboutDialog
 from Pretzel.ui.toolbars import TableToolbar
 from Pretzel.ui.preferences import PreferencesDialog
 from Pretzel.ui.tools.calculators import MolecularMass, ScientificCalculator
@@ -96,6 +96,9 @@ class PretzelWindow(QMainWindow):
         self.action_preferences.triggered.connect(self.show_preferences)
 
         # About
+        self.action_about = QAction("About", self)
+        self.action_about.setStatusTip("About Pretzel")
+        self.action_about.triggered.connect(self.show_about_dialog)
 
         # About Qt
         self.action_about_qt = QAction("About Qt", self)
@@ -235,6 +238,7 @@ class PretzelWindow(QMainWindow):
 
         # Help
         help_menu = self.menu_bar.addMenu("&Help")
+        help_menu.addAction(self.action_about)
         help_menu.addAction(self.action_about_qt)
 
         return self.menu_bar
@@ -285,6 +289,11 @@ class PretzelWindow(QMainWindow):
     def show_preferences(self):
         preferences_dialog = PreferencesDialog(self)
         preferences_dialog.exec()
+
+    @pyqtSlot()
+    def show_about_dialog(self):
+        about_dialog = AboutDialog(parent=self)
+        about_dialog.exec()
 
     @pyqtSlot()
     def show_import_items_dialog(self):
