@@ -1,6 +1,6 @@
-PyQt5~=5.14.1
-sympy~=1.6
-matplotlib~=3.2.1
-molmass~=2020.6.10
-openpyxl~=3.0.3
-pandas~=1.0.3
+PyQt5>=5.14.1
+sympy>=1.6
+matplotlib>=3.2.1
+molmass>=2020.6.10
+openpyxl>=3.0.3
+pandas>=1.0.3
