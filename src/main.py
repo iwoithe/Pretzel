@@ -231,7 +231,7 @@ class PretzelWindow(QMainWindow):
         calculators_menu.addAction(self.scientific_calculator.toggleViewAction())
         calculators_menu.addAction(self.molecular_mass.toggleViewAction())
         # Generation
-        generation_menu = tools_menu.addMenu("Generation")
+        # generation_menu = tools_menu.addMenu("Generation")
 
         # Help
         help_menu = self.menu_bar.addMenu("&Help")
