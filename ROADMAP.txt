@@ -10,10 +10,11 @@
 
 - [ ] Create a (good) plugin system and API
 - [ ] Finish the Obsidian style
+- [ ] Add custom properties
 
 ## Misc
 
-- [ ] Create a website for Pretzel
+- [ ] Create a website for Pretzel (Hugo)
 - [ ] Create a better icon and logo
 
 ## Undecided
