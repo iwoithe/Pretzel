@@ -1,7 +1,7 @@
 # Welcome to Pretzel
 
 !!!Note
-    If at *any* stage you're confused about anything, don't hesitate to contact me.
+    Pretzel is not yet stable. Expect bugs and incomplete features.
 
 ## About
 

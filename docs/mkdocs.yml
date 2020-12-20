@@ -10,9 +10,6 @@ theme: readthedocs
 # Overide the default navigation
 nav:
   - 'Welcome to Pretzel': 'index.md'
-  - 'Getting Started':
-    - 'getting-started/index.md'
-    - 'Adding Items': 'getting-started/adding-items.md'
 
 # Markdown Extensions
 markdown_extensions:
