@@ -3,7 +3,7 @@ site_name: Pretzel
 copyright: 'Copyright © iwoithe 2020 <br> Creative Commons Attribution-ShareAlike 4.0 International'
 
 # Gitlab Repository
-#repo_url: 'https://gitlab.com/iwoithe/pretzel'
+repo_url: 'https://gitlab.com/iwoithe/pretzel'
 
 theme: readthedocs
 
