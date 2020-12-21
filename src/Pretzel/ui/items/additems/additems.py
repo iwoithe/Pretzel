@@ -247,6 +247,9 @@ class AddItems(QDockWidget):
 
         add_items(items)
 
+        self.items_model.items.clear()
+        self.items_model.update()
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
