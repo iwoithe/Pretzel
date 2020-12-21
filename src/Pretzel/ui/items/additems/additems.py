@@ -247,8 +247,17 @@ class AddItems(QDockWidget):
 
         add_items(items)
 
+        # Clear the items list
         self.items_model.items.clear()
         self.items_model.update()
+
+        # Clear the display
+        self.entry_name.setText("")
+        self.entry_chem_formula.setText("")
+        self.combo_warning_label.setCurrentIndex(self.warning_labels.index("None"))
+        self.combo_danger_level.setCurrentIndex(self.danger_levels.index("None"))
+        self.notes_text.setMarkdown("")
+        self.pictograms_list.setModel(PictogramModel())
 
 
 if __name__ == '__main__':
