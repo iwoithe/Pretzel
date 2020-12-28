@@ -2,6 +2,8 @@
 
 A cross-platform, free and open source stock management system for hazardous chemicals.
 
+![](screenshots/demo.png)
+
 ## Features
 
 - Add, edit, remove and view the items
@@ -67,4 +69,4 @@ Pretzel is released under the GNU General Public License v3.
 
 ## Help
 
-Documentation is (still) being worked on. For the meantime, just open an issue on GitLab/GitHub.
+Documentation is being worked on. For the meantime, just open an issue on GitLab/GitHub.
