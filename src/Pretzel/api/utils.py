@@ -25,6 +25,7 @@
 
 import json
 
+
 def register(classes: list) -> bool:
     """ :param classes: The classes to register.
         :type classes: list
@@ -68,6 +69,7 @@ def register(classes: list) -> bool:
             json.dump(settings, f, indent=4)
 
         return True
+
 
 def unregister(classes: list) -> bool:
     """

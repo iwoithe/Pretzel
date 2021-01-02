@@ -28,7 +28,7 @@
 #       Pretzel.
 
 
-class Plugin():
+class Plugin(object):
     """
     The base class of all plugins
 
