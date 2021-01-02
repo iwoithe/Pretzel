@@ -203,6 +203,7 @@ class PretzelWindow(QMainWindow):
         # File
         file_menu = self.menu_bar.addMenu("&File")
         file_menu.addAction(self.action_import)
+        file_menu.addSeparator()
         file_menu.addAction(self.action_quit)
 
         # Edit
