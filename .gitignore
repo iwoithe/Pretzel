@@ -12,10 +12,7 @@ backup
 .swp
 
 # Ignore databases
-/src/data/databases/
-/src/data/databases/*
-data.db
+src/data/databases/data.db
 
 # Ignore logs
-*.log
-debug.log
+src/data/debug.log
