@@ -1,6 +1,9 @@
 # Ignore the python cache files
 __pycache__
 
+# Ignore settings
+#src/data/settings.toml
+
 # Ignore any of the binary folders
 bin
 
