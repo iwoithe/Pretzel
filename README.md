@@ -13,7 +13,7 @@ A cross-platform, free and open source stock management system for hazardous che
 
 ## Downloads
 
-Downloads are available [here](https://github.com/iwoithe/Pretzel/releases/). 
+Downloads are available [here](https://github.com/iwoithe/Pretzel/releases/).
 
 ## Installing From the Source
 
@@ -24,13 +24,13 @@ Downloads are available [here](https://github.com/iwoithe/Pretzel/releases/).
 3. Open a shell (on Windows the Command Prompt or PowerShell) in the top level directory of the extracted Pretzel source tree.
 
 4. On Linux and MacOS, run the following command:
-   
+
    ```bash
    pip3 install -r requirements.txt
    ```
-   
+
    On Windows, run the following command:
-   
+
    ```bash
    pip install -r requirements.txt
    ```
@@ -42,13 +42,13 @@ To run Pretzel:
 1. Open a shell in the top level directory of Pretzel.
 
 2. On Linux and MacOS, run the following command:
-   
+
    ```bash
    python3 -i main.py
    ```
-   
+
    On Windows, run the following command:
-   
+
    ```bash
    python -i main.py
    ```
