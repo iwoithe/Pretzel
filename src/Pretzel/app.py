@@ -24,8 +24,8 @@
 
 import os
 import glob
-import json
 import importlib
+import easysettings
 
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
@@ -37,17 +37,15 @@ from Pretzel.ui.menu import *
 from Pretzel.ui.items import AddItems, EditItems, RemoveItems, ViewItems
 
 from Pretzel.ui.stock import AddStock, RemoveStock, EditStock, ViewStock
-from Pretzel.ui.dialogs import ImportItemsDialog, AboutDialog
+from Pretzel.ui.dialogs import ImportItemsDialog, AboutDialog, PreferencesDialog
 from Pretzel.ui.toolbars import TableToolbar
-from Pretzel.ui.preferences import PreferencesDialog
 from Pretzel.ui.tools.calculators import MolecularMass, ScientificCalculator
 
 
 class PretzelWindow(QMainWindow):
 
     settings_file = "data/settings.json"
-    with open(settings_file) as f:
-        settings = json.loads(f.read())
+    settings = easysettings.load_json_settings(settings_file)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -175,7 +173,7 @@ class PretzelWindow(QMainWindow):
         self.setStatusBar(self.status)
 
         # Set the style
-        style = Pretzel.ui.utils.load_style_from_file(os.path.join("data/styles/", self.settings["Style"] + ".qss"))
+        style = Pretzel.ui.utils.load_style_from_file(os.path.join("data/styles/", self.settings.get("Style") + ".qss"))
         Pretzel.ui.utils.apply_style(style)
 
         # Configure docks
@@ -231,7 +229,7 @@ class PretzelWindow(QMainWindow):
 
     def load_plugins(self):
         # TODO: This is a very basic plugin system. Will need to be improved in future
-        for plugin in self.settings["Plugins"]:
+        for plugin in self.settings.get("Plugins"):
             plugin_name = os.path.splitext(os.path.basename(plugin))[0].replace("_", " ").title()
             spec = importlib.util.spec_from_file_location(plugin_name, plugin)
             p = importlib.util.module_from_spec(spec)

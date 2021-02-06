@@ -47,7 +47,6 @@ except ImportError:
 
 
 if __name__ == '__main__':
-    # TODO: Find a better loading/saving settings system (EasySettings)
     # TODO: Store the path to the database file in the settings
     # TODO: when using uic.loadUi(), see if using relative paths will work (e.g. "./test.ui" instead of "Pretzel/ui/test/test.ui etc.")
     # Setup the application
