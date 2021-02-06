@@ -26,6 +26,10 @@
 import sys
 import logging
 
+# TODO: Work out why this crashes Pretzel
+# import matplotlib
+# matplotlib.use("Qt5Agg")
+
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
