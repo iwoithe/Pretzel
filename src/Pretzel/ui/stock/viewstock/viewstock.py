@@ -4,6 +4,7 @@ from PyQt5 import uic
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 
+from Pretzel.core.database import utils
 from Pretzel.core.database.stock import load_stock
 from Pretzel.core.models import StockModel, StockTableModel
 
@@ -42,7 +43,7 @@ class ViewStock(QDockWidget):
 
     def load_stock(self):
         stock = []
-        for s in load_stock():
+        for s in load_stock(database=utils.get_database_path()):
             stock.append(list(s.values()))
 
         self.stock_model.stock = stock

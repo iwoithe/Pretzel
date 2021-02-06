@@ -44,11 +44,19 @@ class PreferencesDialog(QDialog):
     def setup_ui(self):
         uic.loadUi("Pretzel/ui/dialogs/preferencesdialog/preferencesdialog.ui", self)
 
+        # Interface
         self.load_available_styles()
+        # Paths
+        # Database path
+        self.get_database_path()
 
         self.bind_signals()
 
     def bind_signals(self):
+        # Paths
+        # Database path
+        self.database_path_button.clicked.connect(self.open_database_path)
+        # The button box
         self.button_box.accepted.connect(self.save_settings)
         self.button_box.clicked.connect(self.check_dialog_button)
         self.button_box.rejected.connect(self.reject)
@@ -58,10 +66,28 @@ class PreferencesDialog(QDialog):
         self.style_combo.addItems(styles)
         self.style_combo.setCurrentText(self.parent.settings.get("Style"))
 
+    def get_database_path(self):
+        self.database_path_edit.setText(self.parent.settings.get("Database Path"))
+
+    @pyqtSlot()
+    def open_database_path(self):
+        options = QFileDialog.DontResolveSymlinks | QFileDialog.DontUseNativeDialog
+        file, _ = QFileDialog.getOpenFileName(self,
+                                           "Open Database File",
+                                           "",
+                                           "All Files (*);;Database File (*.db *.DB *.database *.DATABASE)",
+                                           options=options)
+        if file:
+            self.database_path_edit.setText(file)
+
     def save_settings(self):
+        # Interface
         # Update the styles
         current_style = self.style_combo.currentText().replace(" ", "_")
         self.parent.settings.set("Style", current_style)
+
+        # Paths
+        self.parent.settings.set("Database Path", self.database_path_edit.text())
 
         # Save the changes
         self.parent.settings.save()
@@ -72,6 +98,9 @@ class PreferencesDialog(QDialog):
         new_style_name = self.style_combo.currentText().replace(" ", "_")
         new_style = utils.load_style_from_file(os.path.join("data/styles/", new_style_name + ".qss"))
         utils.apply_style(new_style)
+
+        # Paths
+        # TODO: Reload the view table when the settings are applied
 
     @pyqtSlot(QAbstractButton)
     def check_dialog_button(self, button: QAbstractButton):

@@ -1,6 +1,7 @@
 {
     "Style": "System",
-    "Current Directory": "C:/iwoithe/School/2020/STEM_Project/Pretzel/data/plugins/molecular_mass_calculator",
+    "Database Path": "data/databases/data.db",
+    "Current Directory": "",
     "Plugins": [],
     "Debug": false
 }

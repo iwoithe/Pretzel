@@ -1,10 +1,10 @@
 import sqlite3
 
-
 from Pretzel.core.models import PictogramModel
+from Pretzel.core.database import utils
 
 
-def load_items(database: str = "data/databases/data.db") -> list:
+def load_items(database: str = utils.get_database_path()) -> list:
     con = sqlite3.connect(database)
     items_tuple = con.execute("SELECT * FROM items;").fetchall()
 
@@ -35,7 +35,7 @@ def load_items(database: str = "data/databases/data.db") -> list:
     return items
 
 
-def add_items(items: list, database: str = "data/databases/data.db"):
+def add_items(items: list, database: str = utils.get_database_path()):
     con = sqlite3.connect(database)
     con.executemany("INSERT INTO items(name, chemical_formula, warning_label, danger_level, notes, pictograms) values (?, ?, ?, ?, ?, ?)", items)
 
@@ -49,7 +49,7 @@ def add_items(items: list, database: str = "data/databases/data.db"):
     con.close()
 
 
-def remove_items(items: list, database: str = "data/databases/data.db"):
+def remove_items(items: list, database: str = utils.get_database_path()):
     """
     :param items: The items to remove from the database
     :type items: list
@@ -69,7 +69,7 @@ def remove_items(items: list, database: str = "data/databases/data.db"):
     con.close()
 
 
-def edit_items(items: list, database: str = "data/databases/data.db"):
+def edit_items(items: list, database: str = utils.get_database_path()):
     con = sqlite3.connect(database)
 
     # Update the names

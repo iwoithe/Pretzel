@@ -4,6 +4,7 @@ from PyQt5 import uic
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 
+from Pretzel.core.database import utils
 from Pretzel.core.database.items import load_items
 from Pretzel.core.models import ItemsModel, ItemsTableModel
 
@@ -44,7 +45,7 @@ class ViewItems(QDockWidget):
 
     def load_items(self):
         items = []
-        for i in load_items():
+        for i in load_items(database=utils.get_database_path()):
             items.append(list(i.values())[:-2])
 
         self.items_model.items = items

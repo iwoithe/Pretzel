@@ -1,7 +1,9 @@
 import sqlite3
 
+from Pretzel.core.database import utils
 
-def load_stock(database: str = "data/databases/data.db") -> list:
+
+def load_stock(database: str = utils.get_database_path()) -> list:
     con = sqlite3.connect(database)
     items_tuple = con.execute("SELECT * FROM stock;").fetchall()
 
@@ -21,7 +23,7 @@ def load_stock(database: str = "data/databases/data.db") -> list:
     return items
 
 
-def load_stock_names(database: str = "data/databases/data.db") -> list:
+def load_stock_names(database: str = utils.get_database_path()) -> list:
     con = sqlite3.connect(database)
     items_tuple = con.execute("SELECT * FROM stock;").fetchall()
 
@@ -41,7 +43,7 @@ def load_stock_names(database: str = "data/databases/data.db") -> list:
     return items
 
 
-def add_stock(items: list, database: str = "data/databases/data.db"):
+def add_stock(items: list, database: str = utils.get_database_path()):
     # Open the database
     con = sqlite3.connect(database)
 
@@ -93,7 +95,7 @@ def add_stock(items: list, database: str = "data/databases/data.db"):
     con.close()
 
 
-def remove_stock(items: list, database: str = "data/databases/data.db"):
+def remove_stock(items: list, database: str = utils.get_database_path()):
     # Open the database
     con = sqlite3.connect(database)
 
@@ -121,7 +123,7 @@ def remove_stock(items: list, database: str = "data/databases/data.db"):
     con.commit()
     con.close()
 
-def edit_stock(items: list, database: str = "data/databases/data.db"):
+def edit_stock(items: list, database: str = utils.get_database_path()):
     # Open the database
     con = sqlite3.connect(database)
 
