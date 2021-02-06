@@ -42,7 +42,7 @@ class AboutDialog(QDialog):
         self.load_license()
 
     def bind_signals(self):
-        pass
+        self.button_box.clicked.connect(self.close)
 
     def load_license(self):
         license_file = "data/pretzel/LICENSE"
