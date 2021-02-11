@@ -30,9 +30,10 @@ class ViewItems(QDockWidget):
 
         # Setup the sorting
         self.proxy_model = QSortFilterProxyModel(self)
-        self.proxy_model.setSourceModel(self.table_model)
         self.proxy_model.setFilterKeyColumn(0)
         self.proxy_model.setFilterCaseSensitivity(Qt.CaseInsensitive)
+        self.proxy_model.sort(0, Qt.AscendingOrder)
+        self.proxy_model.setSourceModel(self.table_model)
 
         # Setup the models
         self.items_view.setModel(self.proxy_model)
