@@ -32,10 +32,7 @@ from PyQt5.QtWidgets import *
 
 from sympy import init_printing, sympify, latex
 
-try:
-    import utils
-except ModuleNotFoundError:
-    from . import utils
+from Pretzel.ui.tools.calculators.scientific_calculator import utils
 
 
 class ScientificCalculator(QDockWidget):
@@ -43,7 +40,7 @@ class ScientificCalculator(QDockWidget):
     equation = ""
 
     def __init__(self, *args, **kwargs):
-        super().__init__("Scientific Calculator", *args, **kwargs)
+        super().__init__()
 
         self.setup_ui()
 
