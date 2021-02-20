@@ -45,6 +45,7 @@ class PreferencesDialog(QDialog):
         uic.loadUi("Pretzel/ui/dialogs/preferencesdialog/preferencesdialog.ui", self)
 
         # Interface
+        # TODO: Add an option using QStyleFactory.keys()
         self.load_available_styles()
         # Paths
         # Database path
