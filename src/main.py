@@ -31,10 +31,12 @@ import logging
 # matplotlib.use("Qt5Agg")
 
 from PyQt5.QtCore import *
+from PyQt5.QtQml import QQmlApplicationEngine, qmlRegisterType
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
-import Pretzel.core
+import Pretzel
+# import Pretzel.core
 from Pretzel.app import PretzelWindow
 
 try:
@@ -52,6 +54,10 @@ if __name__ == '__main__':
     # Setup the application
     app = QApplication(sys.argv)
     app.setStyle("fusion")
+
+    # TODO: Start switching the UI over to QML
+    # TODO: As QML doesn't support QSS style sheets, find a different way of styling
+    engine = QQmlApplicationEngine()
 
     # Show the splash screen
     splash_img = QPixmap("data/pretzel/logo.svg")
@@ -84,3 +90,4 @@ if __name__ == '__main__':
     splash_screen.finish(pretzel)
     logging.info("Pretzel loaded successfully")
     sys.exit(app.exec())
+
