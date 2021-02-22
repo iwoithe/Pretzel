@@ -1,7 +1,7 @@
-def list_to_string(_list: list) -> str:
+def list_to_string(list_: list) -> str:
     list_string = ""
 
-    for item in _list:
+    for item in list_:
         list_string += item
         #if _list[_list.index(item)] != _list[-1]:
         #    list_string += ","
