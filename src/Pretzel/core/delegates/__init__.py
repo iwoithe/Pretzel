@@ -1,1 +1,1 @@
-from .tabledelegates import WarningLabelDelegate, DangerLevelDelegate
+from .tabledelegates import WarningLabelDelegate, DangerLevelDelegate, UnitDelegate

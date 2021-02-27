@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import *
 
 from Pretzel.core.database import utils
 from Pretzel.core.database.stock import load_stock
+from Pretzel.core.delegates import UnitDelegate
 from Pretzel.core.models import StockModel, StockTableModel
 
 
@@ -36,6 +37,13 @@ class ViewStock(QDockWidget):
         # Setup the models
         self.stock_view.setModel(self.proxy_model)
         self.load_stock()
+
+        # Set the delegates
+        # No need to set a delegate for the quantity and cost columns as
+        # Qt already sets a spinbox delegate for them
+        # Unit delegate
+        unit_delegate = UnitDelegate(self)
+        self.stock_view.setItemDelegateForColumn(2, unit_delegate)
 
         self.bind_signals()
 
