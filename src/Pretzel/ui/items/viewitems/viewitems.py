@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import *
 
 from Pretzel.core.database import utils
 from Pretzel.core.database.items import load_items
+from Pretzel.core.delegates import WarningLabelDelegate, DangerLevelDelegate
 from Pretzel.core.models import ItemsModel, ItemsTableModel
 
 
@@ -38,6 +39,15 @@ class ViewItems(QDockWidget):
         # Setup the models
         self.items_view.setModel(self.proxy_model)
         self.load_items()
+
+        # Set the delegates
+        # Warning label
+        warning_label_delegate = WarningLabelDelegate()
+        self.items_view.setItemDelegateForColumn(2, warning_label_delegate)
+        # Danger level
+        # danger_level_delegate = DangerLevelDelegate()
+        # TODO: The danger level delegate crashes Pretzel for an unknown reason
+        # self.items_view.setItemDelegateForColumn(3, danger_level_delegate)
 
         self.bind_signals()
 

@@ -1,0 +1,1 @@
+from .tabledelegates import WarningLabelDelegate, DangerLevelDelegate
