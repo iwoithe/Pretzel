@@ -3,8 +3,8 @@ from PyQt5.QtWidgets import *
 
 
 class WarningLabelDelegate(QItemDelegate):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent=None):
+        super().__init__(parent)
 
     def createEditor(self, parent: QWidget, option: QStyleOptionViewItem, index: QModelIndex) -> QWidget:
         editor = QComboBox(parent)
@@ -26,8 +26,8 @@ class WarningLabelDelegate(QItemDelegate):
 
 
 class DangerLevelDelegate(QItemDelegate):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent=None):
+        super().__init__(parent)
 
     def createEditor(self, parent: QWidget, option: QStyleOptionViewItem, index: QModelIndex) -> QWidget:
         editor = QComboBox(parent)

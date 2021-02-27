@@ -42,12 +42,11 @@ class ViewItems(QDockWidget):
 
         # Set the delegates
         # Warning label
-        warning_label_delegate = WarningLabelDelegate()
+        warning_label_delegate = WarningLabelDelegate(self)
         self.items_view.setItemDelegateForColumn(2, warning_label_delegate)
         # Danger level
-        # danger_level_delegate = DangerLevelDelegate()
-        # TODO: The danger level delegate crashes Pretzel for an unknown reason
-        # self.items_view.setItemDelegateForColumn(3, danger_level_delegate)
+        danger_level_delegate = DangerLevelDelegate(self)
+        self.items_view.setItemDelegateForColumn(3, danger_level_delegate)
 
         self.bind_signals()
 
