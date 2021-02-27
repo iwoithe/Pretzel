@@ -41,10 +41,10 @@ class ViewItems(QDockWidget):
         self.load_items()
 
         # Set the delegates
-        # Warning label
+        # Warning label delegate
         warning_label_delegate = WarningLabelDelegate(self)
         self.items_view.setItemDelegateForColumn(2, warning_label_delegate)
-        # Danger level
+        # Danger level delegate
         danger_level_delegate = DangerLevelDelegate(self)
         self.items_view.setItemDelegateForColumn(3, danger_level_delegate)
 
