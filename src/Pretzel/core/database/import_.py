@@ -56,7 +56,7 @@ def import_excel(file: str, columns_dict: dict, database: str = "data/databases/
 
     wb = openpyxl.load_workbook(file)
     for sheet_name in wb.sheetnames:
-        df = pd.read_excel(file, sheet_name, usecols=columns_list)
+        df = pd.read_excel(file, sheet_name, usecols=columns_list).dropna()
 
     # Redo the indexes
     index = 0
