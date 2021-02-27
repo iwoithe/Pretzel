@@ -62,6 +62,7 @@ class ItemsTableModel(QAbstractTableModel):
             return data
         if role == Qt.EditRole:
             data = self.items[index.row()][index.column()]
+            return data
         if role == Qt.TextAlignmentRole:
             # Use following lines for specific types
             # value = self.items[index.row()][index.column()]
