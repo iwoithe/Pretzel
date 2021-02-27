@@ -55,10 +55,6 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     app.setStyle("fusion")
 
-    # TODO: Start switching the UI over to QML
-    # TODO: As QML doesn't support QSS style sheets, find a different way of styling
-    engine = QQmlApplicationEngine()
-
     # Show the splash screen
     splash_img = QPixmap("data/pretzel/logo.svg")
     splash_screen = QSplashScreen(splash_img)
