@@ -1,4 +1,5 @@
 from .aboutdialog import AboutDialog
+from .actionsearchdialog import ActionSearchDialog
 from .additemsdialog.additemsdialog import AddItemsDialog
 from .preferencesdialog.preferencesdialog import PreferencesDialog
 from .addpictogramsdialog.addpictogramsdialog import AddPictogramsDialog

@@ -37,7 +37,8 @@ from Pretzel.ui.menu import *
 from Pretzel.ui.items import AddItems, EditItems, RemoveItems, ViewItems
 
 from Pretzel.ui.stock import AddStock, RemoveStock, EditStock, ViewStock
-from Pretzel.ui.dialogs import ImportItemsDialog, AboutDialog, PreferencesDialog
+from Pretzel.ui.dialogs import (ImportItemsDialog, AboutDialog, PreferencesDialog,
+                                ActionSearchDialog)
 from Pretzel.ui.toolbars import TableToolbar
 from Pretzel.ui.tools.calculators import MolecularMass, ScientificCalculator
 
@@ -68,7 +69,7 @@ class PretzelWindow(QMainWindow):
         self.action_quit.triggered.connect(self.quit)
 
         # Import Items
-        self.action_import = QAction("Import")
+        self.action_import = QAction("Import", self)
         self.action_import.setShortcuts(QKeySequence("Ctrl+I"))
         self.action_import.triggered.connect(self.show_import_items_dialog)
 
@@ -77,6 +78,11 @@ class PretzelWindow(QMainWindow):
         self.action_preferences.setStatusTip("Open the preferences")
         self.action_preferences.setShortcuts(QKeySequence("Ctrl+Shift+P"))
         self.action_preferences.triggered.connect(self.show_preferences)
+
+        # Action Search
+        self.action_action_search = QAction("Action Search", self)
+        self.action_action_search.setShortcuts(QKeySequence("F3"))
+        self.action_action_search.triggered.connect(self.show_action_search_dialog)
 
         # About
         self.action_about = QAction("About", self)
@@ -222,6 +228,8 @@ class PretzelWindow(QMainWindow):
 
         # Help
         help_menu = self.menu_bar.addMenu("&Help")
+        help_menu.addAction(self.action_action_search)
+        help_menu.addSeparator()
         help_menu.addAction(self.action_about)
         help_menu.addAction(self.action_about_qt)
 
@@ -278,6 +286,11 @@ class PretzelWindow(QMainWindow):
     def show_about_dialog(self):
         about_dialog = AboutDialog(parent=self)
         about_dialog.exec()
+
+    @pyqtSlot()
+    def show_action_search_dialog(self):
+        action_search_dialog = ActionSearchDialog(parent=self)
+        action_search_dialog.exec()
 
     @pyqtSlot()
     def show_import_items_dialog(self):
