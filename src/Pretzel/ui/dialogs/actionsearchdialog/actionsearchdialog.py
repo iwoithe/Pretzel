@@ -1,6 +1,6 @@
 from PyQt5.QtCore import Qt, pyqtSlot
 from PyQt5.QtWidgets import (QWidget, QDialog, QVBoxLayout, QListWidget,
-                             QListWidgetItem, QAction)
+                             QListWidgetItem, QAbstractItemView, QAction)
 
 from Pretzel.ui.widgets import ActionSearchEdit
 
@@ -81,9 +81,11 @@ class ActionSearchDialog(QDialog):
                 if (i - 1) < 0:
                     # Select the bottom item
                     self.actions_list.item(lim - 1).setSelected(True)
+                    self.actions_list.scrollToItem(self.actions_list.item(lim - 1), QAbstractItemView.PositionAtBottom)
                 else:
                     # Select the item above the current one
                     self.actions_list.item(i - 1).setSelected(True)
+                    self.actions_list.scrollToItem(self.actions_list.item(i - 1), QAbstractItemView.PositionAtTop)
 
                 break
 
@@ -93,8 +95,11 @@ class ActionSearchDialog(QDialog):
             if self.actions_list.item(i).isSelected():
                 if (i + 1) > (lim - 1):
                     self.actions_list.item(0).setSelected(True)
+                    self.actions_list.scrollToItem(self.actions_list.item(0), QAbstractItemView.PositionAtTop)
                 else:
                     self.actions_list.item(i + 1).setSelected(True)
+                    self.actions_list.scrollToItem(self.actions_list.item(i + 1), QAbstractItemView.PositionAtBottom)
+
 
                 break
 
