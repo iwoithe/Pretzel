@@ -42,10 +42,11 @@ from Pretzel.ui.dialogs import (ImportItemsDialog, AboutDialog, PreferencesDialo
 from Pretzel.ui.toolbars import TableToolbar
 from Pretzel.ui.tools.calculators import MolecularMass, ScientificCalculator
 
+from Pretzel.core.paths import settings_file
+
 
 class PretzelWindow(QMainWindow):
 
-    settings_file = "data/settings.json"
     settings = easysettings.load_json_settings(settings_file)
 
     def __init__(self, *args, **kwargs):

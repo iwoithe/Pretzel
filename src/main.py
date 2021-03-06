@@ -31,12 +31,10 @@ import logging
 # matplotlib.use("Qt5Agg")
 
 from PyQt5.QtCore import *
-from PyQt5.QtQml import QQmlApplicationEngine, qmlRegisterType
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 import Pretzel
-# import Pretzel.core
 from Pretzel.app import PretzelWindow
 
 try:
@@ -60,20 +58,18 @@ if __name__ == '__main__':
     splash_screen = QSplashScreen(splash_img)
     splash_screen.show()
 
-    # Init logs
-    splash_screen.showMessage("Initializing Logging...", alignment=Qt.AlignRight | Qt.AlignBottom)
+    # Init directories
+    splash_screen.showMessage("Initializing Directories...", alignment=Qt.AlignRight | Qt.AlignBottom)
     app.processEvents()
-    Pretzel.core.init.init_logging()
-    # Time?
-    # logging.basicConfig(filename='data/debug.log', level=logging.INFO, format='%(levelname)s:%(asctime)s: %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
-    logging.basicConfig(filename='data/debug.log', level=logging.INFO, format='%(levelname)s:%(name)s: %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
-    logging.debug("Initialized logging")
+    Pretzel.core.init.init_dirs()
 
-    # Init databases
-    splash_screen.showMessage("Initializing Databases...", alignment=Qt.AlignRight | Qt.AlignBottom)
+    # Init files
+    splash_screen.showMessage("Initializing Files...", alignment=Qt.AlignRight | Qt.AlignBottom)
     app.processEvents()
-    Pretzel.core.database.init.initialize_databases()
-    logging.debug("Initialized the databases")
+    Pretzel.core.init.init_files()
+    # Time?
+    logging.basicConfig(filename=Pretzel.core.paths.log_file, level=logging.INFO, format='%(levelname)s:%(name)s: %(message)s', datefmt='%d/%m/%Y %I:%M:%S %p')
+    logging.debug("Initialized files")
 
     # Loading
     splash_screen.showMessage("Loading...", alignment=Qt.AlignRight | Qt.AlignBottom)

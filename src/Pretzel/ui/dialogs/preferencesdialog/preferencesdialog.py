@@ -56,7 +56,7 @@ class PreferencesDialog(QDialog):
     def bind_signals(self):
         # Paths
         # Database path
-        self.database_path_button.clicked.connect(self.open_database_path)
+        self.database_path_button.clicked.connect(lambda: self.open_path(path="Database"))
         # The button box
         self.button_box.accepted.connect(self.save_settings)
         self.button_box.clicked.connect(self.check_dialog_button)
@@ -71,15 +71,26 @@ class PreferencesDialog(QDialog):
         self.database_path_edit.setText(self.parent.settings.get("Database Path"))
 
     @pyqtSlot()
-    def open_database_path(self):
+    def open_path(self, path=None):
         options = QFileDialog.DontResolveSymlinks | QFileDialog.DontUseNativeDialog
-        file, _ = QFileDialog.getOpenFileName(self,
-                                           "Open Database File",
-                                           "",
-                                           "All Files (*);;Database File (*.db *.DB *.database *.DATABASE)",
-                                           options=options)
-        if file:
-            self.database_path_edit.setText(file)
+        if path == "Settings":
+            file, _ = QFileDialog.getOpenFileName(self,
+                                                  "Open Settings File",
+                                                  "",
+                                                  "All Files (*);;JSON file (*.json *.JSON)",
+                                                  options=options)
+            if file:
+                self.database_path_edit.setText(file)
+        elif path == "Database":
+            file, _ = QFileDialog.getOpenFileName(self,
+                                                  "Open Database File",
+                                                  "",
+                                                  "All Files (*);;Database File (*.db *.DB *.database *.DATABASE)",
+                                                  options=options)
+            if file:
+                self.database_path_edit.setText(file)
+        else:
+            pass
 
     def save_settings(self):
         # Interface
