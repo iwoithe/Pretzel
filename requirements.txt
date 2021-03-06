@@ -6,3 +6,4 @@ molmass>=2020.6.10
 openpyxl>=3.0.3
 pandas>=1.0.3
 xlrd>=1.2.0
+appdirs>=1.4.4
