@@ -27,7 +27,7 @@ import sys
 import logging
 
 # FIXME: Pretzel crashes when the plotting window comes up (from the scientific calculator)
-# FIXME: This crashes when run from PyCharm. I think it's related to above
+# FIXME: This crashes when run from PyCharm. I think it is what is causing the above issue
 # import matplotlib
 # try:
 #     matplotlib.use("Qt5Agg")
