@@ -51,7 +51,7 @@ except ImportError:
 
 
 if __name__ == '__main__':
-    # TODO: Customise properties so users can add/remove columns of data (properties)
+    # TODO: Custom properties so users can add/remove columns of data
     # TODO: when using uic.loadUi(), see if using relative paths will work (e.g. "./test.ui" instead of "Pretzel/ui/test/test.ui etc.")
     # Setup the application
     app = QApplication(sys.argv)
