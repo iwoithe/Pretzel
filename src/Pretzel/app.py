@@ -185,6 +185,10 @@ class PretzelWindow(QMainWindow):
         stock_menu.addAction(self.remove_stock.toggleViewAction())
         stock_menu.addAction(self.edit_stock.toggleViewAction())
         stock_menu.addAction(self.view_stock.toggleViewAction())
+        # Tools
+        tools_menu = dock_menu.addMenu("Tools")
+        tools_menu.addAction(self.scientific_calculator.toggleViewAction())
+        tools_menu.addAction(self.molecular_mass.toggleViewAction())
 
         dock_menu.addAction(self.menu.toggleViewAction())
 
@@ -196,15 +200,6 @@ class PretzelWindow(QMainWindow):
         workspace_menu = view_menu.addMenu("Workspaces")
         for workspace_action in self.workspaces:
             workspace_menu.addAction(workspace_action)
-
-        # Tools
-        tools_menu = self.menu_bar.addMenu("&Tools")
-        # Calculators
-        calculators_menu = tools_menu.addMenu("Calculators")
-        calculators_menu.addAction(self.scientific_calculator.toggleViewAction())
-        calculators_menu.addAction(self.molecular_mass.toggleViewAction())
-        # Generation
-        # generation_menu = tools_menu.addMenu("Generation")
 
         # Help
         help_menu = self.menu_bar.addMenu("&Help")
