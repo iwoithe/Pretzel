@@ -12,7 +12,6 @@ def set_workspace(window: QMainWindow, file: str):
         for dock in window.findChildren(QDockWidget):
             dock.hide()
 
-
         for child in root.iter("Dock"):
             dock_name = child.attrib["name"]
             dock = window.findChild(QDockWidget, dock_name)
