@@ -35,13 +35,12 @@ from Pretzel.core.database.items import add_items
 
 
 class AddItems(QDockWidget):
-    def __init__(self, parent=None, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.items_model = ItemsModel()
 
         # Setup the user interface
-        self.parent = parent
         self.setup_ui()
 
     def setup_ui(self):
@@ -69,6 +68,7 @@ class AddItems(QDockWidget):
         self.items_list.clicked.connect(self.update_item_properties_index)
 
         # Cycle through layouts
+        # TODO: Look at using either QDataWidgetMapper or pyqtconfig (https://github.com/learnpyqt/pyqtconfig)
         for widget_num in range(self.general_tab.layout().count()):
             widget = self.general_tab.layout().itemAt(widget_num)
             if (type(widget) == QHBoxLayout) or (type(widget) == QVBoxLayout):

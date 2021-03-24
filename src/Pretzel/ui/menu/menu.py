@@ -40,6 +40,7 @@ class Menu(QDockWidget):
 
     def __init__(self, *args, **kwargs):
         super().__init__("Menu", *args, **kwargs)
+        self.setObjectName("Menu")
 
         # TODO: Change menu view to a QTreeView
         # TODO: Add filtering to menu

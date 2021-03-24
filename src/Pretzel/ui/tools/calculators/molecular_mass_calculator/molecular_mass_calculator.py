@@ -35,7 +35,7 @@ from molmass.molmass import FormulaError
 
 class MolecularMass(QDockWidget):
     def __init__(self, *args, **kwargs):
-        super().__init__("Molecular Mass Calculator", *args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         self.setup_ui()
 

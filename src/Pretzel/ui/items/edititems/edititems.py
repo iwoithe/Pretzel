@@ -36,13 +36,12 @@ from Pretzel.ui.dialogs import AddItemsDialog, AddPictogramsDialog
 
 
 class EditItems(QDockWidget):
-    def __init__(self, parent=None, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.items_model = ItemsModel()
 
         # Setup the user interface
-        self.parent = parent
         self.setup_ui()
 
     def setup_ui(self):

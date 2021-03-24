@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<Workspace>
+    <Dock name="Menu" show="True" area="Left"/>
+    <Dock name="RemoveItems" show="True" area="Left"/>
+    <Dock name="ViewItems" show="True" area="Right"/>
+    <Dock name="ViewStock" show="True" area="Right"/>
+    <SplitDocks dock1="Menu" dock2="RemoveItems" orientation="Horizontal"/>
+    <SplitDocks dock1="ViewItems" dock2="ViewStock" orientation="Vertical"/>
+</Workspace>

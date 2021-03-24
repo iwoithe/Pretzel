@@ -35,11 +35,10 @@ from Pretzel.core.database.items import remove_items
 
 
 class RemoveItems(QDockWidget):
-    def __init__(self, parent=None, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         # Setup the user interface
-        self.parent = parent
         self.setup_ui()
 
     def setup_ui(self):

@@ -40,7 +40,7 @@ class ScientificCalculator(QDockWidget):
     equation = ""
 
     def __init__(self, *args, **kwargs):
-        super().__init__()
+        super().__init__(*args, **kwargs)
 
         self.setup_ui()
 

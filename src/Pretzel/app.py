@@ -44,6 +44,9 @@ from Pretzel.ui.tools.calculators import MolecularMass, ScientificCalculator
 
 from Pretzel.core.paths import settings_file
 
+# TODO: Move to Pretzel.core?
+from Pretzel.ui.workspaces import WorkspaceAction, set_workspace
+
 
 class PretzelWindow(QMainWindow):
 
@@ -51,6 +54,9 @@ class PretzelWindow(QMainWindow):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        self.workspaces = []
+        self.load_available_workspaces()
 
         self.setup_ui()
 
@@ -97,7 +103,7 @@ class PretzelWindow(QMainWindow):
 
     def create_docks(self):
         # Create and setup the dock widgets
-        self.menu = Menu()
+        self.menu = Menu(self)
         # Or QKeySequence(Qt.CTRL + Qt.Key_M)
         self.menu.toggleViewAction().setShortcuts(QKeySequence("Ctrl+M"))
         self.menu.toggleDock.connect(self.toggle_dock)
@@ -113,58 +119,22 @@ class PretzelWindow(QMainWindow):
         self.view_items.toggleViewAction().setShortcuts(QKeySequence("Shift+I"))
 
         # Stock
-        self.add_stock = AddStock(parent=self)
+        self.add_stock = AddStock(self)
         self.add_stock.toggleViewAction().setShortcuts(QKeySequence("Ctrl+A"))
-        self.remove_stock = RemoveStock(parent=self)
+        self.remove_stock = RemoveStock(self)
         self.remove_stock.toggleViewAction().setShortcuts(QKeySequence("Ctrl+R"))
-        self.edit_stock = EditStock(parent=self)
+        self.edit_stock = EditStock(self)
         self.edit_stock.toggleViewAction().setShortcuts(QKeySequence("Ctrl+E"))
-        self.view_stock = ViewStock(parent=self)
+        self.view_stock = ViewStock(self)
         self.view_stock.toggleViewAction().setShortcuts(QKeySequence("Shift+V"))
 
-        self.scientific_calculator = ScientificCalculator()
+        self.scientific_calculator = ScientificCalculator(self)
         self.scientific_calculator.toggleViewAction().setShortcuts(QKeySequence("Alt+C"))
 
-        self.molecular_mass = MolecularMass()
+        self.molecular_mass = MolecularMass(self)
         self.molecular_mass.toggleViewAction().setShortcuts(QKeySequence("Shift+M"))
 
-        # Add docks
-
-        self.addDockWidget(Qt.LeftDockWidgetArea, self.menu)
-
-        self.addDockWidget(Qt.LeftDockWidgetArea, self.add_items)
-        self.addDockWidget(Qt.LeftDockWidgetArea, self.remove_items)
-        self.addDockWidget(Qt.LeftDockWidgetArea, self.edit_items)
-
-        self.splitDockWidget(self.menu, self.add_items, Qt.Horizontal)
-
-        self.tabifyDockWidget(self.add_items, self.edit_items)
-        self.tabifyDockWidget(self.edit_items, self.remove_items)
-        self.add_items.raise_()
-
-        self.addDockWidget(Qt.RightDockWidgetArea, self.add_stock)
-        self.addDockWidget(Qt.RightDockWidgetArea, self.remove_stock)
-        self.addDockWidget(Qt.RightDockWidgetArea, self.edit_stock)
-        self.addDockWidget(Qt.RightDockWidgetArea, self.view_items)
-        self.addDockWidget(Qt.RightDockWidgetArea, self.view_stock)
-
-        self.tabifyDockWidget(self.add_stock, self.edit_stock)
-        self.tabifyDockWidget(self.edit_stock, self.remove_stock)
-        self.add_stock.raise_()
-
-        self.tabifyDockWidget(self.view_items, self.view_stock)
-        self.view_items.raise_()
-
-        self.addDockWidget(Qt.LeftDockWidgetArea, self.scientific_calculator)
-        self.addDockWidget(Qt.LeftDockWidgetArea, self.molecular_mass)
-
-        self.splitDockWidget(self.menu, self.scientific_calculator, Qt.Vertical)
-        self.tabifyDockWidget(self.scientific_calculator, self.molecular_mass)
-        self.scientific_calculator.raise_()
-
-        # Hide some of the docks so that the UI is not overcrowded
-        self.scientific_calculator.hide()
-        self.molecular_mass.hide()
+        set_workspace(self, "data/workspaces/default.xml")
 
     def create_toolbars(self):
         self.table_toolbar = TableToolbar("Table Toolbar", parent=self, view_items_dock=self.view_items, view_stock_dock=self.view_stock)
@@ -202,21 +172,30 @@ class PretzelWindow(QMainWindow):
 
         # View
         view_menu = self.menu_bar.addMenu("&View")
+        dock_menu = view_menu.addMenu("Docks")
         # Items
-        item_menu = view_menu.addMenu("Item")
+        item_menu = dock_menu.addMenu("Item")
         item_menu.addAction(self.add_items.toggleViewAction())
         item_menu.addAction(self.remove_items.toggleViewAction())
         item_menu.addAction(self.edit_items.toggleViewAction())
         item_menu.addAction(self.view_items.toggleViewAction())
         # Stock
-        stock_menu = view_menu.addMenu("Stock")
+        stock_menu = dock_menu.addMenu("Stock")
         stock_menu.addAction(self.add_stock.toggleViewAction())
         stock_menu.addAction(self.remove_stock.toggleViewAction())
         stock_menu.addAction(self.edit_stock.toggleViewAction())
         stock_menu.addAction(self.view_stock.toggleViewAction())
 
-        view_menu.addAction(self.menu.toggleViewAction())
-        view_menu.addAction(self.table_toolbar.toggleViewAction())
+        dock_menu.addAction(self.menu.toggleViewAction())
+
+        # Toolbars
+        toolbar_menu = view_menu.addMenu("Toolbars")
+        toolbar_menu.addAction(self.table_toolbar.toggleViewAction())
+
+        # Workspaces
+        workspace_menu = view_menu.addMenu("Workspaces")
+        for workspace_action in self.workspaces:
+            workspace_menu.addAction(workspace_action)
 
         # Tools
         tools_menu = self.menu_bar.addMenu("&Tools")
@@ -235,6 +214,15 @@ class PretzelWindow(QMainWindow):
         help_menu.addAction(self.action_about_qt)
 
         return self.menu_bar
+
+    def load_available_workspaces(self):
+        # TODO: Search the user data folder for custom workspaces (not just the bundled ones)
+        # TODO: Create submenus from workspace subdirectories (e.g. instead of View > Workspaces > Add Items,
+        #  use View > Workspaces > Items > Add Items)
+        for workspace_file in glob.glob("data/workspaces/**/*.xml", recursive=True):
+            workspace_name = os.path.splitext(os.path.basename(workspace_file))[0].replace("_", " ").title()
+            workspace_action = WorkspaceAction(name=workspace_name, parent=self, workspaceFile=workspace_file)
+            self.workspaces.append(workspace_action)
 
     def load_plugins(self):
         # TODO: This is a very basic plugin system. Will need to be improved in future

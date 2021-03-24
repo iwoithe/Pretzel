@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<Workspace>
+    <!-- TODO: Add support for toolbars -->
+    <Dock name="Menu" show="True" area="Left"/>
+
+    <Dock name="AddItems" show="True" area="Left" focus="True"/>
+    <Dock name="EditItems" show="True" area="Left"/>
+    <Dock name="RemoveItems" show="True" area="Left"/>
+
+    <!-- TODO: Split/tabbify multiple docks (> 2) at once -->
+    <SplitDocks dock1="Menu" dock2="AddItems" orientation="Horizontal"/>
+
+    <TabbifyDocks dock1="AddItems" dock2="EditItems"/>
+    <TabbifyDocks dock1="EditItems" dock2="RemoveItems"/>
+
+    <Dock name="AddStock" show="True" area="Right" focus="True"/>
+    <Dock name="EditStock" show="True" area="Right"/>
+    <Dock name="RemoveStock" show="True" area="Right"/>
+
+    <Dock name="ViewItems" show="True" area="Right" focus="True"/>
+    <Dock name="ViewStock" show="True" area="Right"/>
+
+    <TabbifyDocks dock1="AddStock" dock2="EditStock"/>
+    <TabbifyDocks dock1="EditStock" dock2="RemoveStock"/>
+
+    <TabbifyDocks dock1="ViewItems" dock2="ViewStock"/>
+
+    <Dock name="ScientificCalculator" show="False" area="Left" focus="True"/>
+    <Dock name="MolecularMassCalculator" show="False" area="Left"/>
+
+    <SplitDocks dock1="Menu" dock2="ScientificCalculator" orientation="Vertical"/>
+    <TabbifyDocks dock1="ScientificCalculator" dock2="MolecularMassCalculator"/>
+</Workspace>
