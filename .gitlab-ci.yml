@@ -34,7 +34,8 @@ build:
   script:
     - cd src/
     - pyinstaller --onefile --windowed -n Pretzel main.py
+    - cd ../
   artifacts:
     # TODO: Build for multiple platforms (not just Windows)
     paths:
-      - dist/Pretzel
+      - src/dist/Pretzel
