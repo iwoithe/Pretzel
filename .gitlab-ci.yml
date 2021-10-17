@@ -37,4 +37,4 @@ build:
   artifacts:
     # TODO: Build for multiple platforms (not just Windows)
     paths:
-      - dist/*.exe
+      - dist/Pretzel
