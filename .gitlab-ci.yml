@@ -1,4 +1,7 @@
-image: python:latest
+# Use Python 3.9 to avoid recent PyInstaller issue
+# - https://stackoverflow.com/questions/68459087/pyinstaller-with-python-3-10-0b4-importerror-no-module-named-bootlocale
+# - https://github.com/pyinstaller/pyinstaller/issues/5693
+image: python:3.9.7
 
 # Change pip's cache directory to be inside the project directory since we can
 # only cache local items.
@@ -32,5 +35,6 @@ build:
     - cd src/
     - pyinstaller --onefile --windowed -n Pretzel main.py
   artifacts:
+    # TODO: Build for multiple platforms (not just Windows)
     paths:
       - dist/*.exe
