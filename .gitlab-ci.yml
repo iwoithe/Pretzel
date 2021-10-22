@@ -29,13 +29,32 @@ before_script:
 stages:
   - build
 
-build:
+build windows:
+  stage: build
+  before_script:
+    - choco install python --version=3.9.7 -y -f
+    - refreshenv
+    - "C:\\Python39\\python.exe -V"  # Print out python version for debugging
+    - "C:\\Python39\\python.exe -m pip install pyinstaller"
+    - "C:\\Python39\\python.exe -m pip install -r requirements.txt"
+  script:
+    - cd src/
+    - "C:\\Python39\\Scripts\\pyinstaller.exe --onefile --windowed -n Pug main.py"
+    - cd ../
+  tags:
+    - windows
+  artifacts:
+    paths:
+      - src/dist/
+
+build linux:
   stage: build
   script:
     - cd src/
-    - pyinstaller --onefile --windowed -n Pretzel main.py
+    - pyinstaller --onefile --windowed -n Pug main.py
     - cd ../
+  tags:
+    - docker
   artifacts:
-    # TODO: Build for multiple platforms (not just Windows)
     paths:
-      - src/dist/Pretzel
+      - src/dist/
