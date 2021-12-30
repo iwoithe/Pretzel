@@ -1,3 +1,7 @@
+<div align="center">
+<h1>This repository is now archived. You can visit the new repository at either [GitLab](https://https://gitlab.com/GetPretzel/Pretzel) or [GitHub](https://github.com/GetPretzel/Pretzel)</h1>
+</div>
+
 # Pretzel
 
 A cross-platform, free and open source stock management system for hazardous chemicals.
